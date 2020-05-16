@@ -21,11 +21,11 @@ locals {
     #   namespace = "aws:elbv2:loadbalancer"
     #   value     = ""
     # },
-    {
-      name      = "AppSource"
-      namespace = "aws:cloudformation:template:parameter"
-      value     = "https://elasticbeanstalk-samples-ap-southeast-2.s3-ap-southeast-2.amazonaws.com/FirstSample-v3.zip"
-    },
+    # {
+    #   name      = "AppSource"
+    #   namespace = "aws:cloudformation:template:parameter"
+    #   value     = "https://elasticbeanstalk-samples-ap-southeast-2.s3-ap-southeast-2.amazonaws.com/FirstSample-v3.zip"
+    # },
     # {
     #   name      = "Application Healthcheck URL"
     #   namespace = "aws:elasticbeanstalk:application"
@@ -149,6 +149,11 @@ locals {
       value     = "default"
     },
     {
+      name      = "DefaultProcess"
+      namespace = "aws:elbv2:listener:443"
+      value     = "default"
+    },
+    {
       name      = "DefaultSSHPort"
       namespace = "aws:elasticbeanstalk:control"
       value     = "22"
@@ -203,11 +208,11 @@ locals {
       namespace = "aws:elasticbeanstalk:environment"
       value     = "LoadBalanced"
     },
-    {
-      name      = "EnvironmentVariables"
-      namespace = "aws:cloudformation:template:parameter"
-      value     = join(",", var.env_vars)
-    },
+    # {
+    #   name      = "EnvironmentVariables"
+    #   namespace = "aws:cloudformation:template:parameter"
+    #   value     = join(",", var.env_vars)
+    # },
     {
       name      = "EvaluationPeriods"
       namespace = "aws:autoscaling:trigger"
@@ -315,6 +320,11 @@ locals {
     },
     {
       name      = "ListenerEnabled"
+      namespace = "aws:elbv2:listener:443"
+      value     = "true"
+    },
+    {
+      name      = "ListenerEnabled"
       namespace = "aws:elbv2:listener:default"
       value     = "true"
     },
@@ -383,15 +393,15 @@ locals {
     #   namespace = "aws:elasticbeanstalk:sns:topics"
     #   value     = ""
     # },
-    {
-      name      = "Notification Protocol"
-      namespace = "aws:elasticbeanstalk:sns:topics"
-      value     = "email"
-    },
+    # {
+    #   name      = "Notification Protocol"
+    #   namespace = "aws:elasticbeanstalk:sns:topics"
+    #   value     = "email"
+    # },
     # {
     #   name      = "Notification Topic ARN"
     #   namespace = "aws:elasticbeanstalk:sns:topics"
-    #   value     = ""
+    #   value     = join(",", var.alarm_sns_topics)
     # },
     # {
     #   name      = "Notification Topic Name"
@@ -422,6 +432,11 @@ locals {
       name      = "Protocol"
       namespace = "aws:elasticbeanstalk:environment:process:default"
       value     = "HTTP"
+    },
+    {
+      name      = "Protocol"
+      namespace = "aws:elbv2:listener:443"
+      value     = "HTTPS"
     },
     {
       name      = "Protocol"
@@ -470,6 +485,11 @@ locals {
     },
     # {
     #   name      = "Rules"
+    #   namespace = "aws:elbv2:listener:443"
+    #   value     = ""
+    # },
+    # {
+    #   name      = "Rules"
     #   namespace = "aws:elbv2:listener:default"
     #   value     = ""
     # },
@@ -481,6 +501,16 @@ locals {
     # {
     #   name      = "SSLCertificateArns"
     #   namespace = "aws:elbv2:listener:default"
+    #   value     = ""
+    # },
+    {
+      name      = "SSLCertificateArns"
+      namespace = "aws:elbv2:listener:443"
+      value     = var.certificate_arn
+    },
+    # {
+    #   name      = "SSLPolicy"
+    #   namespace = "aws:elbv2:listener:443"
     #   value     = ""
     # },
     # {
@@ -628,3 +658,6 @@ resource "aws_elastic_beanstalk_environment" "env" {
   }
 }
 
+output "eb_all_settings" {
+  value = aws_elastic_beanstalk_environment.env.all_settings
+}

@@ -106,7 +106,46 @@ variable "cloudwatch_logs_retention" {
   description = "Specifies the number of days you want to retain log events in the specified log group. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, and 3653."
 }
 
-variable "env_vars" {
+variable "alarm_sns_topics" {
   default     = []
-  description = ""
+  description = "Alarm topics to create and alert on ECS service metrics. Leaving empty disables all alarms."
 }
+
+variable "alarm_asg_high_cpu_threshold" {
+  description = "Max threshold average CPU percentage allowed in a 2 minutes interval (use 0 to disable this alarm)"
+  default     = 80
+}
+
+variable "alarm_alb_latency_anomaly_threshold" {
+  description = "ALB Latency anomaly detection width (use 0 to disable this alarm)"
+  default     = 4
+}
+
+variable "alarm_alb_500_errors_threshold" {
+  description = "Max threshold of HTTP 500 errors allowed in a 5 minutes interval (use 0 to disable this alarm)"
+  default     = 10
+}
+
+variable "alarm_alb_400_errors_threshold" {
+  description = "Max threshold of HTTP 4000 errors allowed in a 5 minutes interval (use 0 to disable this alarm)"
+  default     = 10
+}
+
+variable "enable_schedule" {
+  default     = false
+  description = "Enables schedule to shut down and start up instances outside business hours"
+}
+
+variable "schedule_cron_start" {
+  type        = string
+  default     = ""
+  description = "Cron expression to define when to trigger a start of the auto-scaling group. E.g. '0 20 * * *' to start at 8pm GMT time"
+}
+
+variable "schedule_cron_stop" {
+  type        = string
+  default     = ""
+  description = "Cron expression to define when to trigger a stop of the auto-scaling group. E.g. '0 10 * * *' to stop at 10am GMT time"
+}
+
+# alarm_asg_high_cpu_threshold
