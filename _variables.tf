@@ -98,7 +98,7 @@ variable "autoscaling_default_cooldown" {
 
 variable "key_name" {
   default     = ""
-  description = "Defines a SSH keypair to access EB instances"
+  description = "Defines a SSH keypair to access EB instances (leave empty to create one)"
 }
 
 variable "cloudwatch_logs_retention" {

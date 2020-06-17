@@ -181,7 +181,7 @@ locals {
     {
       name      = "EC2KeyName"
       namespace = "aws:autoscaling:launchconfiguration"
-      value     = "${var.key_name}"
+      value     = "${var.key_name != "" ? var.key_name : aws_key_pair.key[0].key_name}"
     },
     {
       name      = "ELBScheme"
