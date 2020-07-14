@@ -149,3 +149,23 @@ variable "schedule_cron_stop" {
 }
 
 # alarm_asg_high_cpu_threshold
+
+variable "ad_directory_id" {
+  default     = ""
+  description = "ID of directory from AWS Simple AD"
+}
+
+variable "ad_directory_name" {
+  default     = ""
+  description = "Active Directory Name (leave it blank to disable join domain automation)"
+}
+
+variable "ad_directory_ip1" {
+  default     = ""
+  description = "AD Directory first IP address"
+}
+
+variable "ad_directory_ip2" {
+  default     = ""
+  description = "AD second IP address"
+}
