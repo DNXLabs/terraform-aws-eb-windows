@@ -102,6 +102,10 @@ resource "aws_ssm_document" "automation" {
 schemaVersion: '0.3'
 assumeRole: ${aws_iam_role.automation[0].arn}
 mainSteps:
+  - name: initial_sleep
+    action: aws:sleep
+    inputs:
+      Duration: PT10M
   - name: change_hostname
     action: 'aws:runCommand'
     inputs:
