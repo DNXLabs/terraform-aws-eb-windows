@@ -1,11 +1,8 @@
 # terraform-aws-eb-windows
 
-[![Lint Status](https://github.com/DNXLabs/terraform-aws-db-monitoring/workflows/Lint/badge.svg)](https://github.com/DNXLabs/terraform-aws-db-monitoring/actions)
-[![LICENSE](https://img.shields.io/github/license/DNXLabs/terraform-aws-db-monitoring)](https://github.com/DNXLabs/terraform-aws-db-monitoring/blob/master/LICENSE)
-
 This terraform module provides an Windows Elastic Beanstalk Application Resource
 
-The module creates:
+The following resources will be created:
  - Cloudwatch alarms for the Aplication Load Balance (ALB)
    - alb_500_errors
    - alb_400_errors
