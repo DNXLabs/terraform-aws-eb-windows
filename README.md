@@ -1,5 +1,8 @@
 # terraform-aws-eb-windows
 
+[![Lint Status](https://github.com/DNXLabs/terraform-aws-eb-windows/workflows/Lint/badge.svg)](https://github.com/DNXLabs/terraform-aws-eb-windows/actions)
+[![LICENSE](https://img.shields.io/github/license/DNXLabs/terraform-aws-eb-windows)](https://github.com/DNXLabs/terraform-aws-eb-windows/blob/master/LICENSE)
+
 This terraform module provides an Windows Elastic Beanstalk Application Resource
 
 The following resources will be created:
@@ -22,14 +25,12 @@ The following resources will be created:
 
 <!--- BEGIN_TF_DOCS --->
 
-## Requirements
+<!--- END_TF_DOCS --->
 
-| Name | Version |
-|------|---------|
-| terraform | >= 0.12.20 |
+## Authors
 
-## Providers
+Module managed by [DNX Solutions](https://github.com/DNXLabs).
 
-| Name | Version |
-|------|---------|
-| aws | n/a |
+## License
+
+Apache 2 Licensed. See [LICENSE](https://github.com/DNXLabs/terraform-aws-eb-windows/blob/master/LICENSE) for full details.
