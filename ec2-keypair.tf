@@ -1,10 +1,10 @@
 resource "tls_private_key" "this" {
-  count = var.key_name == "" ? 1 : 0
+  count     = var.key_name == "" ? 1 : 0
   algorithm = "RSA"
 }
 
 resource "aws_key_pair" "key" {
-  count = var.key_name == "" ? 1 : 0
+  count      = var.key_name == "" ? 1 : 0
   key_name   = "eb-${var.environment}-${var.name}"
   public_key = tls_private_key.this[0].public_key_openssh
 }
