@@ -556,12 +556,12 @@ locals {
     {
       name      = "StickinessEnabled"
       namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = "false"
+      value     = var.stickiness_enabled
     },
     {
       name      = "StickinessLBCookieDuration"
       namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = "86400"
+      value     = var.stickiness_expiration
     },
     {
       name      = "StickinessType"
