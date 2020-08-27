@@ -169,3 +169,13 @@ variable "ad_directory_ip2" {
   default     = ""
   description = "AD second IP address"
 }
+
+variable "stickiness_enabled" {
+  default     = false
+  description = "Route requests from the same client to the same target"
+}
+
+variable "stickiness_expiration" {
+  default     = 86400 
+  description = "Cookie expiration period, in seconds"
+}
