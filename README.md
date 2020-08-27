@@ -76,6 +76,8 @@ The following resources will be created:
 | schedule\_cron\_stop | Cron expression to define when to trigger a stop of the auto-scaling group. E.g. '0 10 \* \* \*' to stop at 10am GMT time | `string` | `""` | no |
 | secure\_subnet\_ids | List of secure subnet IDs for EFS | `list` | n/a | yes |
 | security\_group\_ids | Extra security groups for instances | `list` | `[]` | no |
+| stickiness\_enabled | Route requests from the same client to the same target | `bool` | `false` | no |
+| stickiness\_expiration | Cookie expiration period, in seconds | `number` | `86400` | no |
 | vpc\_id | VPC ID to deploy the  cluster | `any` | n/a | yes |
 
 ## Outputs
