@@ -8,7 +8,7 @@ variable "environment" {
 }
 
 variable "eb_solution_stack_name" {
-  default     = "64bit Windows Server 2019 v2.5.2 running IIS 10.0"
+  default     = "64bit Windows Server 2019 v2.5.9 running IIS 10.0"
   description = "Stack name passed to ElasticBeanstalk"
 }
 
@@ -176,6 +176,6 @@ variable "stickiness_enabled" {
 }
 
 variable "stickiness_expiration" {
-  default     = 86400 
+  default     = 86400
   description = "Cookie expiration period, in seconds"
 }
