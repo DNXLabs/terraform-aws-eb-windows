@@ -58,7 +58,7 @@ The following resources will be created:
 | certificate\_arn | n/a | `any` | n/a | yes |
 | cloudwatch\_logs\_retention | Specifies the number of days you want to retain log events in the specified log group. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, and 3653. | `number` | `120` | no |
 | eb\_application\_name | EB application name (empty value will create an application) | `string` | `""` | no |
-| eb\_solution\_stack\_name | Stack name passed to ElasticBeanstalk | `string` | `"64bit Windows Server 2019 v2.5.2 running IIS 10.0"` | no |
+| eb\_solution\_stack\_name | Stack name passed to ElasticBeanstalk | `string` | `"64bit Windows Server 2019 v2.5.9 running IIS 10.0"` | no |
 | enable\_schedule | Enables schedule to shut down and start up instances outside business hours | `bool` | `false` | no |
 | environment | Name of this environment | `string` | `"dev"` | no |
 | hosted\_zone | Hosted zone to create the hostname | `string` | `""` | no |
