@@ -8,7 +8,6 @@ variable "environment" {
 }
 
 variable "eb_solution_stack_name" {
-  default     = "64bit Windows Server 2019 v2.5.9 running IIS 10.0"
   description = "Stack name passed to ElasticBeanstalk"
 }
 
