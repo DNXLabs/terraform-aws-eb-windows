@@ -178,3 +178,8 @@ variable "stickiness_expiration" {
   default     = 86400
   description = "Cookie expiration period, in seconds"
 }
+
+variable "ignore_iam_account_alias" {
+  default     = false
+  description = "Disables data source for iam_account_alias used on cloudwatch alarms"
+}
