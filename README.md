@@ -63,6 +63,7 @@ The following resources will be created:
 | environment | Name of this environment | `string` | `"dev"` | no |
 | hosted\_zone | Hosted zone to create the hostname | `string` | `""` | no |
 | hostname | Hostname to create on route53 pointing to the EB CNAME (leave empty to prevent creation) | `string` | `""` | no |
+| ignore\_iam\_account\_alias | Disables data source for iam\_account\_alias used on cloudwatch alarms | `bool` | `false` | no |
 | instance\_type\_1 | Instance type for ECS workers (first priority) | `any` | n/a | yes |
 | instance\_type\_2 | Instance type for ECS workers (second priority) | `any` | n/a | yes |
 | instance\_type\_3 | Instance type for ECS workers (third priority) | `any` | n/a | yes |
@@ -86,6 +87,7 @@ The following resources will be created:
 |------|-------------|
 | eb\_all\_settings | n/a |
 | eb\_environment\_id | n/a |
+| eb\_load\_balancers | n/a |
 | iam\_role\_eb\_arn | ARN for EB IAM role |
 | iam\_role\_eb\_name | Name of EB IAM role |
 | ssm\_association\_join\_domain\_automation | n/a |
