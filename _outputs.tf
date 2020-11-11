@@ -15,3 +15,7 @@ output "eb_environment_id" {
 output "eb_all_settings" {
   value = aws_elastic_beanstalk_environment.env.all_settings
 }
+
+output "eb_load_balancers" {
+  value = aws_elastic_beanstalk_environment.env.load_balancers
+}
