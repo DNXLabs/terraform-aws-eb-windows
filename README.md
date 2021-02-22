@@ -29,7 +29,7 @@ The following resources will be created:
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.12.0 |
+| terraform | >= 0.13.0 |
 
 ## Providers
 
@@ -71,12 +71,12 @@ The following resources will be created:
 | name | Name for this application | `any` | n/a | yes |
 | on\_demand\_base\_capacity | You can designate a base portion of your total capacity as On-Demand. As the group scales, per your settings, the base portion is provisioned first, while additional On-Demand capacity is percentage-based. | `number` | `0` | no |
 | on\_demand\_percentage | Percentage of on-demand intances vs spot | `number` | `100` | no |
-| private\_subnet\_ids | List of private subnet IDs for instances | `list` | n/a | yes |
-| public\_subnet\_ids | List of public subnet IDs for ALB | `list` | n/a | yes |
+| private\_subnet\_ids | List of private subnet IDs for instances | `list(any)` | n/a | yes |
+| public\_subnet\_ids | List of public subnet IDs for ALB | `list(any)` | n/a | yes |
 | schedule\_cron\_start | Cron expression to define when to trigger a start of the auto-scaling group. E.g. '0 20 \* \* \*' to start at 8pm GMT time | `string` | `""` | no |
 | schedule\_cron\_stop | Cron expression to define when to trigger a stop of the auto-scaling group. E.g. '0 10 \* \* \*' to stop at 10am GMT time | `string` | `""` | no |
-| secure\_subnet\_ids | List of secure subnet IDs for EFS | `list` | n/a | yes |
-| security\_group\_ids | Extra security groups for instances | `list` | `[]` | no |
+| secure\_subnet\_ids | List of secure subnet IDs for EFS | `list(any)` | n/a | yes |
+| security\_group\_ids | Extra security groups for instances | `list(any)` | `[]` | no |
 | stickiness\_enabled | Route requests from the same client to the same target | `bool` | `false` | no |
 | stickiness\_expiration | Cookie expiration period, in seconds | `number` | `86400` | no |
 | vpc\_id | VPC ID to deploy the  cluster | `any` | n/a | yes |
