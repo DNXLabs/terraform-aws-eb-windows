@@ -43,17 +43,17 @@ variable "vpc_id" {
 }
 
 variable "private_subnet_ids" {
-  type        = list
+  type        = list(any)
   description = "List of private subnet IDs for instances"
 }
 
 variable "public_subnet_ids" {
-  type        = list
+  type        = list(any)
   description = "List of public subnet IDs for ALB"
 }
 
 variable "secure_subnet_ids" {
-  type        = list
+  type        = list(any)
   description = "List of secure subnet IDs for EFS"
 }
 
@@ -80,7 +80,7 @@ variable "hostname" {
 }
 
 variable "security_group_ids" {
-  type        = list
+  type        = list(any)
   default     = []
   description = "Extra security groups for instances"
 }
