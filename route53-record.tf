@@ -10,5 +10,5 @@ resource "aws_route53_record" "hostname" {
   name    = var.hostname
   type    = "CNAME"
   ttl     = "300"
-  records = list(aws_elastic_beanstalk_environment.env.cname)
+  records = tolist([aws_elastic_beanstalk_environment.env.cname])
 }
