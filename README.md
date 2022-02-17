@@ -57,8 +57,8 @@ The following resources will be created:
 | autoscaling\_health\_check\_grace\_period | The length of time that Auto Scaling waits before checking an instance's health status. The grace period begins when an instance comes into service | `number` | `300` | no |
 | certificate\_arn | n/a | `any` | n/a | yes |
 | cloudwatch\_logs\_retention | Specifies the number of days you want to retain log events in the specified log group. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, and 3653. | `number` | `120` | no |
-| coudwatch\_environment\_metrics | Environment metrics to be collected from beanstalk to cloudwatch | `map` | `{}` | no |
-| coudwatch\_instance\_metrics | Instance metrics to be collected from beanstalk to cloudwatch | `map` | `{}` | no |
+| coudwatch\_environment\_metrics | Environment metrics to be collected from beanstalk to cloudwatch | `map(string)` | `{}` | no |
+| coudwatch\_instance\_metrics | Instance metrics to be collected from beanstalk to cloudwatch | `map(string)` | `{}` | no |
 | eb\_application\_name | EB application name (empty value will create an application) | `string` | `""` | no |
 | eb\_solution\_stack\_name | Stack name passed to ElasticBeanstalk | `any` | n/a | yes |
 | enable\_schedule | Enables schedule to shut down and start up instances outside business hours | `bool` | `false` | no |
