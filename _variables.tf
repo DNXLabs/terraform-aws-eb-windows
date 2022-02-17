@@ -184,10 +184,12 @@ variable "ignore_iam_account_alias" {
   description = "Disables data source for iam_account_alias used on cloudwatch alarms"
 }
 variable "coudwatch_environment_metrics" {
-  default  = {}
+  type        = map(string)
+  default     = {}
   description = "Environment metrics to be collected from beanstalk to cloudwatch"
 }
 variable "coudwatch_instance_metrics" {
-  default  = {}
+  type        = map(string)
+  default     = {}
   description = "Instance metrics to be collected from beanstalk to cloudwatch"
 }
