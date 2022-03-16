@@ -74,8 +74,9 @@ variable "hosted_zone" {
   description = "Hosted zone to create the hostname"
 }
 
-variable "hostname" {
-  default     = ""
+variable "hostnames" {
+  type        = list(string)
+  default     = []
   description = "Hostname to create on route53 pointing to the EB CNAME (leave empty to prevent creation)"
 }
 

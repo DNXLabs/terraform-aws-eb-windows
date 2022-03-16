@@ -64,7 +64,7 @@ The following resources will be created:
 | enable\_schedule | Enables schedule to shut down and start up instances outside business hours | `bool` | `false` | no |
 | environment | Name of this environment | `string` | `"dev"` | no |
 | hosted\_zone | Hosted zone to create the hostname | `string` | `""` | no |
-| hostname | Hostname to create on route53 pointing to the EB CNAME (leave empty to prevent creation) | `string` | `""` | no |
+| hostnames | Hostname to create on route53 pointing to the EB CNAME (leave empty to prevent creation) | `list(string)` | `[]` | no |
 | ignore\_iam\_account\_alias | Disables data source for iam\_account\_alias used on cloudwatch alarms | `bool` | `false` | no |
 | instance\_type\_1 | Instance type for ECS workers (first priority) | `any` | n/a | yes |
 | instance\_type\_2 | Instance type for ECS workers (second priority) | `any` | n/a | yes |
