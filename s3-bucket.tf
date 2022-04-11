@@ -1,6 +1,6 @@
 locals {
-    partition = join("", data.aws_partition.current.*.partition)
-    name      = lower(var.name)
+  partition = join("", data.aws_partition.current.*.partition)
+  name      = lower(var.name)
 }
 
 data "aws_iam_policy_document" "elb_logs" {
@@ -19,7 +19,7 @@ data "aws_iam_policy_document" "elb_logs" {
 
     principals {
       type        = "AWS"
-      identifiers = [join("", data.aws_elb_service_account.main.*.arn)]
+      identifiers = [join("", data.aws_elb_service_account.current.*.arn)]
     }
 
     effect = "Allow"
