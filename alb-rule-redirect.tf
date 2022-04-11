@@ -4,7 +4,7 @@ data "aws_lb_listener" "selected_80" {
 }
 
 resource "aws_lb_listener_rule" "redirect_http_to_https" {
-  count = var.eb_tier == "WebServer" && var.environment_type == "LoadBalanced" && var.loadbalancer_type != "network" && !var.loadbalancer_is_shared ? 1 : 0
+  count        = var.eb_tier == "WebServer" && var.environment_type == "LoadBalanced" && var.loadbalancer_type != "network" && !var.loadbalancer_is_shared ? 1 : 0
   listener_arn = data.aws_lb_listener.selected_80.arn
 
   action {

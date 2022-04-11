@@ -1,6 +1,6 @@
 locals {
-    partition = join("", data.aws_partition.current.*.partition)
-    name      = lower(var.name)
+  partition = join("", data.aws_partition.current.*.partition)
+  name      = lower(var.name)
 }
 
 data "aws_iam_policy_document" "elb_logs" {
