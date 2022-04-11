@@ -1,40 +1,49 @@
-resource "aws_elastic_beanstalk_application" "app" {
-  count       = var.eb_application_name == "" ? 1 : 0
-  name        = var.name
-  description = "${var.name} EB APP"
-}
-
 locals {
-  eb_settings = [
-    # {
-    #   name      = "AccessLogsS3Bucket"
-    #   namespace = "aws:elbv2:loadbalancer"
-    #   value     = ""
-    # },
+  eb_default_settings = [
     {
-      name      = "AccessLogsS3Enabled"
-      namespace = "aws:elbv2:loadbalancer"
+      name      = "EnvironmentType"
+      namespace = "aws:elasticbeanstalk:environment"
+      value     = var.environment_type
+    },
+    {
+      name      = "ServiceRole"
+      namespace = "aws:elasticbeanstalk:environment"
+      value     = aws_iam_role.eb_service.arn
+    },
+    {
+      name      = "DeregistrationDelay"
+      namespace = "aws:elasticbeanstalk:environment:process:default"
+      value     = "20"
+    },
+    {
+      name      = "HealthCheckPath"
+      namespace = "aws:elasticbeanstalk:environment:process:default"
+      value     = "/"
+    },
+    {
+      name      = "HealthCheckTimeout"
+      namespace = "aws:elasticbeanstalk:environment:process:default"
+      value     = "5"
+    },
+    {
+      name      = "RollbackLaunchOnFailure"
+      namespace = "aws:elasticbeanstalk:control"
       value     = "false"
     },
-    # {
-    #   name      = "AccessLogsS3Prefix"
-    #   namespace = "aws:elbv2:loadbalancer"
-    #   value     = ""
-    # },
-    # {
-    #   name      = "AppSource"
-    #   namespace = "aws:cloudformation:template:parameter"
-    #   value     = "https://elasticbeanstalk-samples-ap-southeast-2.s3-ap-southeast-2.amazonaws.com/FirstSample-v3.zip"
-    # },
-    # {
-    #   name      = "Application Healthcheck URL"
-    #   namespace = "aws:elasticbeanstalk:application"
-    #   value     = ""
-    # },
     {
-      name      = "AssociatePublicIpAddress"
-      namespace = "aws:ec2:vpc"
-      value     = "false"
+      name      = "DefaultSSHPort"
+      namespace = "aws:elasticbeanstalk:control"
+      value     = "22"
+    },
+    {
+      name      = "LaunchTimeout"
+      namespace = "aws:elasticbeanstalk:control"
+      value     = "0"
+    },
+    {
+      name      = "LaunchType"
+      namespace = "aws:elasticbeanstalk:control"
+      value     = "Migration"
     },
     {
       name      = "Automatically Terminate Unhealthy Instances"
@@ -42,29 +51,44 @@ locals {
       value     = "true"
     },
     {
-      name      = "Availability Zones"
-      namespace = "aws:autoscaling:asg"
-      value     = "Any"
-    },
-    {
       name      = "BatchSize"
       namespace = "aws:elasticbeanstalk:command"
-      value     = "100"
+      value     = var.deployment_batch_size
     },
     {
       name      = "BatchSizeType"
       namespace = "aws:elasticbeanstalk:command"
-      value     = "Percentage"
+      value     = var.deployment_batch_size_type
     },
-    # {
-    #   name      = "BlockDeviceMappings"
-    #   namespace = "aws:autoscaling:launchconfiguration"
-    #   value     = ""
-    # },
     {
-      name      = "BreachDuration"
-      namespace = "aws:autoscaling:trigger"
-      value     = "5"
+      name      = "DeploymentPolicy"
+      namespace = "aws:elasticbeanstalk:command"
+      value     = "AllAtOnce"
+    },
+    {
+      name      = "IgnoreHealthCheck"
+      namespace = "aws:elasticbeanstalk:command"
+      value     = var.deployment_ignore_health_check
+    },
+    {
+      name      = "Timeout"
+      namespace = "aws:elasticbeanstalk:command"
+      value     = var.deployment_timeout
+    },
+    {
+      name      = "InstancePort"
+      namespace = "aws:cloudformation:template:parameter"
+      value     = "80"
+    },
+    {
+      name      = "LargerInstanceTypeRequired"
+      namespace = "aws:cloudformation:template:parameter"
+      value     = "true"
+    },
+    {
+      name      = "SystemType"
+      namespace = "aws:cloudformation:template:parameter"
+      value     = "enhanced"
     },
     {
       name      = "ConfigDocument"
@@ -134,64 +158,14 @@ locals {
       )
     },
     {
-      name      = "Cooldown"
-      namespace = "aws:autoscaling:asg"
-      value     = "360"
-    },
-    # {
-    #   name      = "Custom Availability Zones"
-    #   namespace = "aws:autoscaling:asg"
-    #   value     = ""
-    # },
-    {
-      name      = "DefaultProcess"
-      namespace = "aws:elbv2:listener:default"
-      value     = "default"
+      name      = "HealthCheckSuccessThreshold"
+      namespace = "aws:elasticbeanstalk:healthreporting:system"
+      value     = "Ok"
     },
     {
-      name      = "DefaultProcess"
-      namespace = "aws:elbv2:listener:443"
-      value     = "default"
-    },
-    {
-      name      = "DefaultSSHPort"
-      namespace = "aws:elasticbeanstalk:control"
-      value     = "22"
-    },
-    {
-      name      = "DeleteOnTerminate"
-      namespace = "aws:elasticbeanstalk:cloudwatch:logs"
-      value     = "false"
-    },
-    {
-      name      = "DeleteOnTerminate"
-      namespace = "aws:elasticbeanstalk:cloudwatch:logs:health"
-      value     = "false"
-    },
-    {
-      name      = "DeploymentPolicy"
-      namespace = "aws:elasticbeanstalk:command"
-      value     = "AllAtOnce"
-    },
-    {
-      name      = "DeregistrationDelay"
-      namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = "20"
-    },
-    {
-      name      = "EC2KeyName"
-      namespace = "aws:autoscaling:launchconfiguration"
-      value     = "${var.key_name != "" ? var.key_name : aws_key_pair.key[0].key_name}"
-    },
-    {
-      name      = "ELBScheme"
-      namespace = "aws:ec2:vpc"
-      value     = "public"
-    },
-    {
-      name      = "ELBSubnets"
-      namespace = "aws:ec2:vpc"
-      value     = join(",", var.public_subnet_ids)
+      name      = "SystemType"
+      namespace = "aws:elasticbeanstalk:healthreporting:system"
+      value     = "enhanced"
     },
     {
       name      = "Enable 32-bit Applications"
@@ -199,144 +173,95 @@ locals {
       value     = "False"
     },
     {
-      name      = "EnableSpot"
-      namespace = "aws:ec2:instances"
+      name      = "Target Runtime"
+      namespace = "aws:elasticbeanstalk:container:dotnet:apppool"
+      value     = "4.0"
+    },
+    {
+      name      = "InstanceRefreshEnabled"
+      namespace = "aws:elasticbeanstalk:managedactions:platformupdate"
+      value     = var.instance_refresh_enabled
+    },
+    {
+      name      = "UpdateLevel"
+      namespace = "aws:elasticbeanstalk:managedactions:platformupdate"
+      value     = var.update_level
+    },
+    {
+      name      = "ManagedActionsEnabled"
+      namespace = "aws:elasticbeanstalk:managedactions"
       value     = "true"
     },
     {
-      name      = "EnvironmentType"
-      namespace = "aws:elasticbeanstalk:environment"
-      value     = "LoadBalanced"
+      name      = "PreferredStartTime"
+      namespace = "aws:elasticbeanstalk:managedactions"
+      value     = var.preferred_start_time
     },
-    # {
-    #   name      = "EnvironmentVariables"
-    #   namespace = "aws:cloudformation:template:parameter"
-    #   value     = join(",", var.env_vars)
-    # },
+    {
+      name      = "XRayEnabled"
+      namespace = "aws:elasticbeanstalk:xray"
+      value     = "true"
+    },
+  ]
+
+  eb_vpc = [
+    {
+      name      = "VPCId"
+      namespace = "aws:ec2:vpc"
+      value     = var.vpc_id
+    },
+    {
+      name      = "AssociatePublicIpAddress"
+      namespace = "aws:ec2:vpc"
+      value     = var.associate_public_ip_address
+    },
+    {
+      name      = "Subnets"
+      namespace = "aws:ec2:vpc"
+      value     = join(",", var.application_subnets)
+    },
+  ]
+
+  eb_asg = [
+    {
+      name      = "Availability Zones"
+      namespace = "aws:autoscaling:asg"
+      value     = var.availability_zone_selector
+    },
+    {
+      name      = "MinSize"
+      namespace = "aws:autoscaling:asg"
+      value     = var.asg_min
+    },
+    {
+      name      = "MaxSize"
+      namespace = "aws:autoscaling:asg"
+      value     = var.asg_max
+    },
+    {
+      name      = "Cooldown"
+      namespace = "aws:autoscaling:asg"
+      value     = "360"
+    },
+    {
+      name      = "Period"
+      namespace = "aws:autoscaling:trigger"
+      value     = "5"
+    },
     {
       name      = "EvaluationPeriods"
       namespace = "aws:autoscaling:trigger"
       value     = "1"
     },
-    # {
-    #   name      = "ExternalExtensionsS3Bucket"
-    #   namespace = "aws:elasticbeanstalk:environment"
-    #   value     = ""
-    # },
-    # {
-    #   name      = "ExternalExtensionsS3Key"
-    #   namespace = "aws:elasticbeanstalk:environment"
-    #   value     = ""
-    # },
     {
-      name      = "HealthCheckInterval"
-      namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = "15"
+      name      = "Statistic"
+      namespace = "aws:autoscaling:trigger"
+      value     = "Average"
     },
     {
-      name      = "HealthCheckPath"
-      namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = "/"
-    },
-    {
-      name      = "HealthCheckSuccessThreshold"
-      namespace = "aws:elasticbeanstalk:healthreporting:system"
-      value     = "Ok"
-    },
-    {
-      name      = "HealthCheckTimeout"
-      namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = "5"
-    },
-    {
-      name      = "HealthStreamingEnabled"
-      namespace = "aws:elasticbeanstalk:cloudwatch:logs:health"
-      value     = "false"
-    },
-    {
-      name      = "HealthyThresholdCount"
-      namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = "3"
-    },
-    {
-      name      = "IamInstanceProfile"
-      namespace = "aws:autoscaling:launchconfiguration"
-      value     = aws_iam_instance_profile.eb.name
-    },
-    # {
-    #   name      = "IdleTimeout"
-    #   namespace = "aws:elbv2:loadbalancer"
-    #   value     = ""
-    # },
-    {
-      name      = "IgnoreHealthCheck"
-      namespace = "aws:elasticbeanstalk:command"
-      value     = "false"
-    },
-    # {
-    #   name      = "ImageId"
-    #   namespace = "aws:autoscaling:launchconfiguration"
-    #   value     = "ami-0b353b1e6a5dabc74"
-    # },
-    {
-      name      = "InstancePort"
-      namespace = "aws:cloudformation:template:parameter"
-      value     = "80"
-    },
-    {
-      name      = "InstanceRefreshEnabled"
-      namespace = "aws:elasticbeanstalk:managedactions:platformupdate"
-      value     = "false"
-    },
-    {
-      name      = "InstanceType"
-      namespace = "aws:autoscaling:launchconfiguration"
-      value     = var.instance_type_1
-    },
-    {
-      name      = "InstanceTypeFamily"
-      namespace = "aws:cloudformation:template:parameter"
-      value     = element(split(".", var.instance_type_1), 0)
-    },
-    {
-      name      = "InstanceTypes"
-      namespace = "aws:ec2:instances"
-      value     = "${var.instance_type_1}, ${var.instance_type_2}, ${var.instance_type_3}"
-    },
-    {
-      name      = "LargerInstanceTypeRequired"
-      namespace = "aws:cloudformation:template:parameter"
-      value     = "true"
-    },
-    {
-      name      = "LaunchTimeout"
-      namespace = "aws:elasticbeanstalk:control"
-      value     = "0"
-    },
-    {
-      name      = "LaunchType"
-      namespace = "aws:elasticbeanstalk:control"
-      value     = "Migration"
-    },
-    {
-      name      = "ListenerEnabled"
-      namespace = "aws:elbv2:listener:443"
-      value     = "true"
-    },
-    {
-      name      = "ListenerEnabled"
-      namespace = "aws:elbv2:listener:default"
-      value     = "true"
-    },
-    {
-      name      = "LoadBalancerType"
-      namespace = "aws:elasticbeanstalk:environment"
-      value     = "application"
-    },
-    {
-      name      = "LogPublicationControl"
-      namespace = "aws:elasticbeanstalk:hostmanager"
-      value     = "false"
+      name      = "Unit"
+      namespace = "aws:autoscaling:trigger"
+      value     = "Percent"
     },
     {
       name      = "LowerBreachScaleIncrement"
@@ -349,99 +274,150 @@ locals {
       value     = "35"
     },
     {
-      name      = "ManagedActionsEnabled"
-      namespace = "aws:elasticbeanstalk:managedactions"
-      value     = "true"
-    },
-    # {
-    #   name      = "MatcherHTTPCode"
-    #   namespace = "aws:elasticbeanstalk:environment:process:default"
-    #   value     = ""
-    # },
-    {
-      name      = "MaxBatchSize"
-      namespace = "aws:autoscaling:updatepolicy:rollingupdate"
-      value     = "1"
-    },
-    {
-      name      = "MaxSize"
-      namespace = "aws:autoscaling:asg"
-      value     = var.asg_max
-    },
-    {
       name      = "MeasureName"
       namespace = "aws:autoscaling:trigger"
       value     = "CPUUtilization"
     },
     {
-      name      = "MinInstancesInService"
-      namespace = "aws:autoscaling:updatepolicy:rollingupdate"
+      name      = "BreachDuration"
+      namespace = "aws:autoscaling:trigger"
+      value     = "5"
+    },
+    {
+      name      = "UpperBreachScaleIncrement"
+      namespace = "aws:autoscaling:trigger"
       value     = "1"
     },
     {
-      name      = "MinSize"
-      namespace = "aws:autoscaling:asg"
-      value     = var.asg_min
+      name      = "UpperThreshold"
+      namespace = "aws:autoscaling:trigger"
+      value     = "65"
+    },
+    {
+      name      = "RollingUpdateEnabled"
+      namespace = "aws:autoscaling:updatepolicy:rollingupdate"
+      value     = var.rolling_update_enabled
+    },
+    {
+      name      = "RollingUpdateType"
+      namespace = "aws:autoscaling:updatepolicy:rollingupdate"
+      value     = var.rolling_update_type
+    },
+    {
+      name      = "MaxBatchSize"
+      namespace = "aws:autoscaling:updatepolicy:rollingupdate"
+      value     = var.updating_max_batch
+    },
+    {
+      name      = "MinInstancesInService"
+      namespace = "aws:autoscaling:updatepolicy:rollingupdate"
+      value     = var.updating_min_in_service
+    },
+    {
+      name      = "Timeout"
+      namespace = "aws:autoscaling:updatepolicy:rollingupdate"
+      value     = "PT30M"
+    },
+
+
+  ]
+
+  eb_ec2 = [
+    {
+      name      = "InstanceTypes"
+      namespace = "aws:ec2:instances"
+      value     = var.instance_type
+    },
+    {
+      name      = "EnableSpot"
+      namespace = "aws:ec2:instances"
+      value     = var.enable_spot_instances ? "true" : "false"
+    },
+    {
+      name      = "SpotFleetOnDemandAboveBasePercentage"
+      namespace = "aws:ec2:instances"
+      value     = var.spot_fleet_on_demand_above_base_percentage == -1 ? (var.environment_type == "LoadBalanced" ? 70 : 0) : var.spot_fleet_on_demand_above_base_percentage
+    },
+    {
+      name      = "SpotFleetOnDemandBase"
+      namespace = "aws:ec2:instances"
+      value     = var.spot_fleet_on_demand_base
+    },
+    {
+      name      = "SpotMaxPrice"
+      namespace = "aws:ec2:instances"
+      value     = var.spot_max_price == -1 ? "" : var.spot_max_price
+    },
+  ]
+
+  eb_launch_config = [
+    {
+      name      = "InstanceType"
+      namespace = "aws:autoscaling:launchconfiguration"
+      value     = var.instance_type
+    },
+    {
+      name      = "SecurityGroups"
+      namespace = "aws:autoscaling:launchconfiguration"
+      value     = join(",", compact(sort(concat([try(aws_security_group.eb[0].id, "")], var.associated_security_group_ids))))
+    },
+    {
+      name      = "EC2KeyName"
+      namespace = "aws:autoscaling:launchconfiguration"
+      value     = "${var.key_name != "" ? var.key_name : aws_key_pair.key[0].key_name}"
+    },
+    {
+      name      = "IamInstanceProfile"
+      namespace = "aws:autoscaling:launchconfiguration"
+      value     = aws_iam_instance_profile.eb.name
+    },
+    {
+      name      = "RootVolumeType"
+      namespace = "aws:autoscaling:launchconfiguration"
+      value     = var.root_volume_type #"gp2"
+    },
+    {
+      name      = "RootVolumeSize"
+      namespace = "aws:autoscaling:launchconfiguration"
+      value     = var.root_volume_size
+    },
+    {
+      name      = "SSHSourceRestriction"
+      namespace = "aws:autoscaling:launchconfiguration"
+      value     = "tcp,22,22,0.0.0.0/0"
     },
     {
       name      = "MonitoringInterval"
       namespace = "aws:autoscaling:launchconfiguration"
       value     = "5 minute"
     },
-    # {
-    #   name      = "Notification Endpoint"
-    #   namespace = "aws:elasticbeanstalk:sns:topics"
-    #   value     = ""
-    # },
-    # {
-    #   name      = "Notification Protocol"
-    #   namespace = "aws:elasticbeanstalk:sns:topics"
-    #   value     = "email"
-    # },
-    # {
-    #   name      = "Notification Topic ARN"
-    #   namespace = "aws:elasticbeanstalk:sns:topics"
-    #   value     = join(",", var.alarm_sns_topics)
-    # },
-    # {
-    #   name      = "Notification Topic Name"
-    #   namespace = "aws:elasticbeanstalk:sns:topics"
-    #   value     = ""
-    # },
-    # {
-    #   name      = "PauseTime"
-    #   namespace = "aws:autoscaling:updatepolicy:rollingupdate"
-    #   value     = ""
-    # },
+  ]
+
+  eb_cloudwatch = [
     {
-      name      = "Period"
-      namespace = "aws:autoscaling:trigger"
-      value     = "5"
+      name      = "LogPublicationControl"
+      namespace = "aws:elasticbeanstalk:hostmanager"
+      value     = var.enable_log_publication_control ? "true" : "false"
     },
     {
-      name      = "Port"
-      namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = "80"
+      name      = "StreamLogs"
+      namespace = "aws:elasticbeanstalk:cloudwatch:logs"
+      value     = var.enable_stream_logs ? "true" : "false"
     },
     {
-      name      = "PreferredStartTime"
-      namespace = "aws:elasticbeanstalk:managedactions"
-      value     = "Wed:15:00"
+      name      = "DeleteOnTerminate"
+      namespace = "aws:elasticbeanstalk:cloudwatch:logs"
+      value     = var.logs_delete_on_terminate ? "true" : "false"
     },
     {
-      name      = "Protocol"
-      namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = "HTTP"
+      name      = "HealthStreamingEnabled"
+      namespace = "aws:elasticbeanstalk:cloudwatch:logs:health"
+      value     = var.health_streaming_enabled ? "true" : "false"
     },
     {
-      name      = "Protocol"
-      namespace = "aws:elbv2:listener:443"
-      value     = "HTTPS"
-    },
-    {
-      name      = "Protocol"
-      namespace = "aws:elbv2:listener:default"
-      value     = "HTTP"
+      name      = "DeleteOnTerminate"
+      namespace = "aws:elasticbeanstalk:cloudwatch:logs:health"
+      value     = var.health_streaming_delete_on_terminate ? "true" : "false"
     },
     {
       name      = "RetentionInDays"
@@ -451,107 +427,144 @@ locals {
     {
       name      = "RetentionInDays"
       namespace = "aws:elasticbeanstalk:cloudwatch:logs:health"
-      value     = var.cloudwatch_logs_retention
-    },
+      value     = var.health_streaming_retention_in_days
+    }
+  ]
+
+  generic_alb_settings = [
     {
-      name      = "RollbackLaunchOnFailure"
-      namespace = "aws:elasticbeanstalk:control"
-      value     = "false"
-    },
+      name      = "SecurityGroups"
+      namespace = "aws:elbv2:loadbalancer"
+      value     = join(",", sort(var.loadbalancer_security_groups))
+    }
+  ]
+
+  shared_alb_settings = [
     {
-      name      = "RollingUpdateEnabled"
-      namespace = "aws:autoscaling:updatepolicy:rollingupdate"
+      name      = "LoadBalancerIsShared"
+      namespace = "aws:elasticbeanstalk:environment"
       value     = "true"
     },
     {
-      name      = "RollingUpdateType"
-      namespace = "aws:autoscaling:updatepolicy:rollingupdate"
-      value     = "Health"
-    },
-    # {
-    #   name      = "RootVolumeIOPS"
-    #   namespace = "aws:autoscaling:launchconfiguration"
-    #   value     = ""
-    # },
-    # {
-    #   name      = "RootVolumeSize"
-    #   namespace = "aws:autoscaling:launchconfiguration"
-    #   value     = ""
-    # },
+      name      = "SharedLoadBalancer"
+      namespace = "aws:elbv2:loadbalancer"
+      value     = var.shared_loadbalancer_arn
+    }
+  ]
+
+  alb_settings = [
     {
-      name      = "RootVolumeType"
-      namespace = "aws:autoscaling:launchconfiguration"
-      value     = "gp2"
+      name      = "AccessLogsS3Bucket"
+      namespace = "aws:elbv2:loadbalancer"
+      value     = !var.loadbalancer_is_shared ? join("", sort(aws_s3_bucket.elb_logs.*.id)) : ""
     },
-    # {
-    #   name      = "Rules"
-    #   namespace = "aws:elbv2:listener:443"
-    #   value     = ""
-    # },
-    # {
-    #   name      = "Rules"
-    #   namespace = "aws:elbv2:listener:default"
-    #   value     = ""
-    # },
     {
-      name      = "SSHSourceRestriction"
-      namespace = "aws:autoscaling:launchconfiguration"
-      value     = "tcp,22,22,0.0.0.0/0"
+      name      = "AccessLogsS3Enabled"
+      namespace = "aws:elbv2:loadbalancer"
+      value     = "true"
     },
-    # {
-    #   name      = "SSLCertificateArns"
-    #   namespace = "aws:elbv2:listener:default"
-    #   value     = ""
-    # },
+    {
+      name      = "ListenerEnabled"
+      namespace = "aws:elbv2:listener:default"
+      value     = var.http_listener_enabled || var.loadbalancer_certificate_arn == "" ? "true" : "false"
+    },
+    {
+      name      = "ManagedSecurityGroup"
+      namespace = "aws:elbv2:loadbalancer"
+      value     = var.loadbalancer_managed_security_group
+    },
+    {
+      name      = "ListenerEnabled"
+      namespace = "aws:elbv2:listener:443"
+      value     = var.loadbalancer_certificate_arn == "" ? "false" : "true"
+    },
+    {
+      name      = "Protocol"
+      namespace = "aws:elbv2:listener:443"
+      value     = "HTTPS"
+    },
     {
       name      = "SSLCertificateArns"
       namespace = "aws:elbv2:listener:443"
-      value     = var.certificate_arn
+      value     = var.loadbalancer_certificate_arn
     },
-    # {
-    #   name      = "SSLPolicy"
-    #   namespace = "aws:elbv2:listener:443"
-    #   value     = ""
-    # },
-    # {
-    #   name      = "SSLPolicy"
-    #   namespace = "aws:elbv2:listener:default"
-    #   value     = ""
-    # },
-    # {
-    #   name      = "SecurityGroups"
-    #   namespace = "aws:autoscaling:launchconfiguration"
-    #   value     = ""
-    # },
-    # {
-    #   name      = "SecurityGroups"
-    #   namespace = "aws:elbv2:loadbalancer"
-    #   value     = ""
-    # },
     {
-      name      = "ServiceRole"
+      name      = "SSLPolicy"
+      namespace = "aws:elbv2:listener:443"
+      value     = var.loadbalancer_type == "application" ? var.loadbalancer_ssl_policy : ""
+    },
+    ###===================== Application Load Balancer Health check settings =====================================================###
+    # The Application Load Balancer health check does not take into account the Elastic Beanstalk health check path
+    # http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environments-cfg-applicationloadbalancer.html
+    # http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environments-cfg-applicationloadbalancer.html#alb-default-process.config
+    {
+      name      = "HealthCheckPath"
+      namespace = "aws:elasticbeanstalk:environment:process:default"
+      value     = var.healthcheck_url
+    },
+    {
+      name      = "MatcherHTTPCode"
+      namespace = "aws:elasticbeanstalk:environment:process:default"
+      value     = join(",", sort(var.healthcheck_httpcodes_to_match))
+    },
+    {
+      name      = "HealthCheckTimeout"
+      namespace = "aws:elasticbeanstalk:environment:process:default"
+      value     = var.healthcheck_timeout
+    }
+  ]
+
+  nlb_settings = [
+    {
+      name      = "ListenerEnabled"
+      namespace = "aws:elbv2:listener:default"
+      value     = var.http_listener_enabled
+    }
+  ]
+
+  generic_elb_settings = [
+    {
+      name      = "LoadBalancerType"
       namespace = "aws:elasticbeanstalk:environment"
-      value     = aws_iam_role.eb_service.arn
+      value     = var.loadbalancer_type
+    }
+  ]
+
+  beanstalk_elb_settings = [
+    {
+      name      = "ELBSubnets"
+      namespace = "aws:ec2:vpc"
+      value     = join(",", sort(var.loadbalancer_subnets))
     },
     {
-      name      = "SpotFleetOnDemandAboveBasePercentage"
-      namespace = "aws:ec2:instances"
-      value     = var.on_demand_percentage
+      name      = "Port"
+      namespace = "aws:elasticbeanstalk:environment:process:default"
+      value     = var.application_port
     },
     {
-      name      = "SpotFleetOnDemandBase"
-      namespace = "aws:ec2:instances"
-      value     = var.on_demand_base_capacity
+      name      = "Protocol"
+      namespace = "aws:elasticbeanstalk:environment:process:default"
+      value     = var.loadbalancer_type == "network" ? "TCP" : "HTTP"
     },
-    # {
-    #   name      = "SpotMaxPrice"
-    #   namespace = "aws:ec2:instances"
-    #   value     = ""
-    # },
     {
-      name      = "Statistic"
-      namespace = "aws:autoscaling:trigger"
-      value     = "Average"
+      name      = "ELBScheme"
+      namespace = "aws:ec2:vpc"
+      value     = var.environment_type == "LoadBalanced" ? var.elb_scheme : ""
+    },
+    {
+      name      = "HealthCheckInterval"
+      namespace = "aws:elasticbeanstalk:environment:process:default"
+      value     = var.healthcheck_interval
+    },
+    {
+      name      = "HealthyThresholdCount"
+      namespace = "aws:elasticbeanstalk:environment:process:default"
+      value     = var.healthcheck_healthy_threshold_count
+    },
+    {
+      name      = "UnhealthyThresholdCount"
+      namespace = "aws:elasticbeanstalk:environment:process:default"
+      value     = var.healthcheck_unhealthy_threshold_count
     },
     {
       name      = "StickinessEnabled"
@@ -568,91 +581,58 @@ locals {
       namespace = "aws:elasticbeanstalk:environment:process:default"
       value     = "lb_cookie"
     },
-    {
-      name      = "StreamLogs"
-      namespace = "aws:elasticbeanstalk:cloudwatch:logs"
-      value     = "true"
-    },
-    {
-      name      = "Subnets"
-      namespace = "aws:ec2:vpc"
-      value     = join(",", var.private_subnet_ids)
-    },
-    {
-      name      = "SystemType"
-      namespace = "aws:cloudformation:template:parameter"
-      value     = "enhanced"
-    },
-    {
-      name      = "SystemType"
-      namespace = "aws:elasticbeanstalk:healthreporting:system"
-      value     = "enhanced"
-    },
-    {
-      name      = "Target Runtime"
-      namespace = "aws:elasticbeanstalk:container:dotnet:apppool"
-      value     = "4.0"
-    },
-    {
-      name      = "Timeout"
-      namespace = "aws:autoscaling:updatepolicy:rollingupdate"
-      value     = "PT30M"
-    },
-    {
-      name      = "Timeout"
-      namespace = "aws:elasticbeanstalk:command"
-      value     = "600"
-    },
-    {
-      name      = "UnhealthyThresholdCount"
-      namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = "5"
-    },
-    {
-      name      = "Unit"
-      namespace = "aws:autoscaling:trigger"
-      value     = "Percent"
-    },
-    {
-      name      = "UpdateLevel"
-      namespace = "aws:elasticbeanstalk:managedactions:platformupdate"
-      value     = "minor"
-    },
-    {
-      name      = "UpperBreachScaleIncrement"
-      namespace = "aws:autoscaling:trigger"
-      value     = "1"
-    },
-    {
-      name      = "UpperThreshold"
-      namespace = "aws:autoscaling:trigger"
-      value     = "65"
-    },
-    {
-      name      = "VPCId"
-      namespace = "aws:ec2:vpc"
-      value     = var.vpc_id
-    },
-    {
-      name      = "XRayEnabled"
-      namespace = "aws:elasticbeanstalk:xray"
-      value     = "true"
-    },
   ]
+
+  # Select elb configuration depending on loadbalancer_type
+  elb_settings_nlb        = var.loadbalancer_type == "network" ? concat(local.nlb_settings, local.generic_elb_settings, local.beanstalk_elb_settings) : []
+  elb_settings_alb        = var.loadbalancer_type == "application" && !var.loadbalancer_is_shared ? concat(local.alb_settings, local.generic_alb_settings, local.generic_elb_settings, local.beanstalk_elb_settings) : []
+  elb_settings_shared_alb = var.loadbalancer_type == "application" && var.loadbalancer_is_shared ? concat(local.shared_alb_settings, local.generic_alb_settings, local.generic_elb_settings) : []
+
+  # If the tier is "WebServer" add the elb_settings, otherwise exclude them
+  elb_settings_final = var.eb_tier == "WebServer" ? concat(local.elb_settings_nlb, local.elb_settings_alb, local.elb_settings_shared_alb) : []
+
+  # Grab all elastic beanstalk settings
+  eb_settings = concat(local.eb_default_settings, local.eb_vpc, local.eb_asg, local.eb_launch_config, local.eb_cloudwatch)
+
+  # Put all settings together
+  eb_settings_final = concat(local.eb_settings, local.elb_settings_final)
+
+}
+
+resource "aws_elastic_beanstalk_application" "app" {
+  count       = var.eb_application_name == "" ? 1 : 0
+  name        = var.name
+  description = "${var.name} EB APP"
 }
 
 resource "aws_elastic_beanstalk_environment" "env" {
-  name                = "${var.name}-${var.environment}"
-  cname_prefix        = "${var.name}-${var.environment}"
-  application         = var.eb_application_name == "" ? aws_elastic_beanstalk_application.app[0].name : var.eb_application_name
-  solution_stack_name = var.eb_solution_stack_name
+  name                   = "${var.name}-${var.environment}"
+  cname_prefix           = var.eb_tier == "WebServer" ? "${var.name}-${var.environment}" : null
+  application            = var.eb_application_name == "" ? aws_elastic_beanstalk_application.app[0].name : var.eb_application_name
+  solution_stack_name    = var.eb_solution_stack_name
+  description            = var.description
+  tier                   = var.eb_tier
+  wait_for_ready_timeout = var.eb_wait_for_ready_timeout
+  version_label          = var.eb_version_label
 
   dynamic "setting" {
-    for_each = local.eb_settings
+    for_each = local.eb_settings_final
     content {
       namespace = setting.value["namespace"]
       name      = setting.value["name"]
       value     = setting.value["value"]
+      resource  = ""
+    }
+  }
+
+  # Add additional Elastic Beanstalk settings
+  # For full list of options, see https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options-general.html
+  dynamic "setting" {
+    for_each = var.additional_settings
+    content {
+      namespace = setting.value.namespace
+      name      = setting.value.name
+      value     = setting.value.value
       resource  = ""
     }
   }

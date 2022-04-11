@@ -19,3 +19,7 @@ output "eb_all_settings" {
 output "eb_load_balancers" {
   value = aws_elastic_beanstalk_environment.env.load_balancers
 }
+
+output "eb_aws_security_group_id" {
+  value = try(aws_security_group.eb[0].id, "")
+}
