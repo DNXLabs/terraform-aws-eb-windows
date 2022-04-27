@@ -101,6 +101,7 @@ The following resources will be created:
 | instance\_refresh\_enabled | Enable weekly instance replacement. | `bool` | `false` | no |
 | instance\_type | Instance type | `string` | `"t2.micro"` | no |
 | key\_name | Defines a SSH keypair to access EB instances (leave empty to create one) | `string` | `""` | no |
+| loadbalancer\_access\_logs\_s3\_enabled | Enable or disable logs on load balancer | `bool` | `false` | no |
 | loadbalancer\_certificate\_arn | Load Balancer SSL certificate ARN. The certificate must be present in AWS Certificate Manager | `string` | `""` | no |
 | loadbalancer\_is\_shared | Flag to create a shared application loadbalancer. Only when loadbalancer\_type = "application" https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environments-cfg-alb-shared.html | `bool` | `false` | no |
 | loadbalancer\_managed\_security\_group | Load balancer managed security group | `string` | `""` | no |
@@ -118,10 +119,12 @@ The following resources will be created:
 | rolling\_update\_type | `Health` or `Immutable`. Set it to `Immutable` to apply the configuration change to a fresh group of instances | `string` | `"Health"` | no |
 | root\_volume\_size | The size of the EBS root volume | `number` | `30` | no |
 | root\_volume\_type | The type of the EBS root volume | `string` | `"gp2"` | no |
-| s3\_bucket\_access\_log\_bucket\_name | Name of the S3 bucket where s3 access log will be sent to | `string` | `""` | no |
-| s3\_bucket\_encryption\_enabled | When set to 'true' the resource will have aes256 encryption enabled by default | `bool` | `true` | no |
-| s3\_bucket\_versioning\_enabled | When set to 'true' the s3 origin bucket will have versioning enabled | `bool` | `true` | no |
-| s3\_force\_destroy | Force destroy the S3 bucket for load balancer logs | `bool` | `false` | no |
+| s3\_bucket\_elb\_logs\_access\_log\_bucket\_name | Name of the S3 bucket where s3 access log will be sent to | `string` | `""` | no |
+| s3\_bucket\_elb\_logs\_create | Create or not a bucket to store the elb logs. | `bool` | `false` | no |
+| s3\_bucket\_elb\_logs\_encryption\_enabled | When set to 'true' the resource will have aes256 encryption enabled by default | `bool` | `true` | no |
+| s3\_bucket\_elb\_logs\_force\_destroy | Force destroy the S3 bucket for load balancer logs | `bool` | `false` | no |
+| s3\_bucket\_elb\_logs\_name | Give a name for the S3 Bucket if empyt one will be generate based on the environment and the name. | `string` | `""` | no |
+| s3\_bucket\_elb\_logs\_versioning\_enabled | When set to 'true' the s3 origin bucket will have versioning enabled | `bool` | `true` | no |
 | schedule\_cron\_start | Cron expression to define when to trigger a start of the auto-scaling group. E.g. '0 20 \* \* \*' to start at 8pm GMT time | `string` | `""` | no |
 | schedule\_cron\_stop | Cron expression to define when to trigger a stop of the auto-scaling group. E.g. '0 10 \* \* \*' to stop at 10am GMT time | `string` | `""` | no |
 | security\_group\_description | The description to assign to the created Security Group.<br>Warning: Changing the description causes the security group to be replaced. | `string` | `"Security Group for ElasticBean Stalk"` | no |
