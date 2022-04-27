@@ -189,6 +189,12 @@ variable "logs_retention_in_days" {
   description = "The number of days to keep log events before they expire."
 }
 
+variable "loadbalancer_access_logs_s3_enabled" {
+  type        = bool
+  default     = false
+  description = "Enable or disable logs on load balancer"
+}
+
 variable "loadbalancer_certificate_arn" {
   type        = string
   default     = ""
@@ -537,25 +543,37 @@ variable "egress_rules" {
   description = "How long to wait for the security group to be created."
 }
 
-variable "s3_force_destroy" {
+variable "s3_bucket_elb_logs_create" {
+  type        = bool
+  default     = false
+  description = "Create or not a bucket to store the elb logs."
+}
+
+variable "s3_bucket_elb_logs_name" {
+  type        = string
+  default     = ""
+  description = "Give a name for the S3 Bucket if empyt one will be generate based on the environment and the name."
+}
+
+variable "s3_bucket_elb_logs_force_destroy" {
   type        = bool
   default     = false
   description = "Force destroy the S3 bucket for load balancer logs"
 }
 
-variable "s3_bucket_encryption_enabled" {
+variable "s3_bucket_elb_logs_encryption_enabled" {
   type        = bool
   default     = true
   description = "When set to 'true' the resource will have aes256 encryption enabled by default"
 }
 
-variable "s3_bucket_access_log_bucket_name" {
+variable "s3_bucket_elb_logs_access_log_bucket_name" {
   type        = string
   default     = ""
   description = "Name of the S3 bucket where s3 access log will be sent to"
 }
 
-variable "s3_bucket_versioning_enabled" {
+variable "s3_bucket_elb_logs_versioning_enabled" {
   type        = bool
   default     = true
   description = "When set to 'true' the s3 origin bucket will have versioning enabled"
