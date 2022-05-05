@@ -107,7 +107,7 @@ variable "eb_tier" {
 
 variable "eb_version_label" {
   type        = string
-  default     = ""
+  default     = "1"
   description = "Elastic Beanstalk Application version to deploy"
 }
 
