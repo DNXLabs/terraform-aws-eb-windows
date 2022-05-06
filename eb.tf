@@ -452,16 +452,11 @@ locals {
     }
   ]
 
-  alb_settings = [
-    {
-      name      = "AccessLogsS3Bucket"
-      namespace = "aws:elbv2:loadbalancer"
-      value     = !var.loadbalancer_is_shared ? join("", sort(aws_s3_bucket.elb_logs.*.id)) : ""
-    },
+  alb_default_settings = [
     {
       name      = "AccessLogsS3Enabled"
       namespace = "aws:elbv2:loadbalancer"
-      value     = "true"
+      value     = var.loadbalancer_access_logs_s3_enabled
     },
     {
       name      = "ListenerEnabled"
@@ -511,6 +506,14 @@ locals {
       name      = "HealthCheckTimeout"
       namespace = "aws:elasticbeanstalk:environment:process:default"
       value     = var.healthcheck_timeout
+    }
+  ]
+
+  alb_logs_settings = [
+    {
+      name      = "AccessLogsS3Bucket"
+      namespace = "aws:elbv2:loadbalancer"
+      value     =  !var.loadbalancer_is_shared ? (var.s3_bucket_elb_logs_name != ""  ? var.s3_bucket_elb_logs_name : join("", sort(aws_s3_bucket.elb_logs.*.id)) ): ""
     }
   ]
 
@@ -582,6 +585,8 @@ locals {
       value     = "lb_cookie"
     },
   ]
+
+  alb_settings = var.loadbalancer_access_logs_s3_enabled ? concat(local.alb_default_settings, local.alb_logs_settings) : local.alb_default_settings
 
   # Select elb configuration depending on loadbalancer_type
   elb_settings_nlb        = var.loadbalancer_type == "network" ? concat(local.nlb_settings, local.generic_elb_settings, local.beanstalk_elb_settings) : []
