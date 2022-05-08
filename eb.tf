@@ -544,7 +544,7 @@ locals {
     {
       name      = "Protocol"
       namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = var.loadbalancer_type == "network" ? "TCP" : "HTTP"
+      value     = var.loadbalancer_type == "network" ? "TCP" : var.application_port == 443 ? "HTTPS" : "HTTP"
     },
     {
       name      = "ELBScheme"
