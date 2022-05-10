@@ -1,6 +1,6 @@
 locals {
-  partition = join("", data.aws_partition.current.*.partition)
-  name_lowercase = lower(var.name)
+  partition            = join("", data.aws_partition.current.*.partition)
+  name_lowercase       = lower(var.name)
   bucket_elb_logs_name = var.s3_bucket_elb_logs_name == "" ? "${var.environment}-eb-elb-logs-${local.name_lowercase}" : var.s3_bucket_elb_logs_name
 }
 
@@ -29,7 +29,7 @@ data "aws_iam_policy_document" "elb_logs" {
 
 resource "aws_s3_bucket" "elb_logs" {
   count         = var.s3_bucket_elb_logs_create && var.eb_tier == "WebServer" && var.environment_type == "LoadBalanced" && var.loadbalancer_type != "network" && !var.loadbalancer_is_shared ? 1 : 0
-  bucket        = "${local.bucket_elb_logs_name}"
+  bucket        = local.bucket_elb_logs_name
   acl           = "private"
   force_destroy = var.s3_bucket_elb_logs_force_destroy
   policy        = join("", data.aws_iam_policy_document.elb_logs.*.json)
