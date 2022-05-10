@@ -76,7 +76,7 @@ The following resources will be created:
 | eb\_tier | Elastic Beanstalk Environment tier, 'WebServer' or 'Worker' | `string` | `"WebServer"` | no |
 | eb\_version\_label | Elastic Beanstalk Application version to deploy | `string` | `""` | no |
 | eb\_wait\_for\_ready\_timeout | The maximum duration to wait for the Elastic Beanstalk Environment to be in a ready state before timing out | `string` | `"20m"` | no |
-| egress\_rules | How long to wait for the security group to be created. | <pre>list(object({<br>    from_port   = string<br>    to_port     = string<br>    protocol    = string<br>    description = string<br>    cidr_blocks = list(string)<br>    self        = string<br>  }))</pre> | `[]` | no |
+| egress\_rules | How long to wait for the security group to be created. | <pre>list(object({<br>    from_port       = string<br>    to_port         = string<br>    protocol        = string<br>    description     = string<br>    cidr_blocks     = list(string)<br>    security_groups = list(string)<br>    self            = string<br>  }))</pre> | `[]` | no |
 | elb\_scheme | Specify `internal` if you want to create an internal load balancer in your Amazon VPC so that your Elastic Beanstalk application cannot be accessed from outside your Amazon VPC | `string` | `"public"` | no |
 | enable\_log\_publication\_control | Copy the log files for your application's Amazon EC2 instances to the Amazon S3 bucket associated with your application | `bool` | `false` | no |
 | enable\_schedule | Enables schedule to shut down and start up instances outside business hours | `bool` | `false` | no |
@@ -97,7 +97,7 @@ The following resources will be created:
 | hostnames | Hostname to create on route53 pointing to the EB CNAME (leave empty to prevent creation) | `list(string)` | `[]` | no |
 | http\_listener\_enabled | Enable port 80 (http) | `bool` | `true` | no |
 | ignore\_iam\_account\_alias | Disables data source for iam\_account\_alias used on cloudwatch alarms | `bool` | `false` | no |
-| ingress\_rules | How long to wait for the security group to be created. | <pre>list(object({<br>    from_port   = string<br>    to_port     = string<br>    protocol    = string<br>    description = string<br>    cidr_blocks = list(string)<br>    self        = string<br>  }))</pre> | `[]` | no |
+| ingress\_rules | How long to wait for the security group to be created. | <pre>list(object({<br>    from_port       = string<br>    to_port         = string<br>    protocol        = string<br>    description     = string<br>    cidr_blocks     = list(string)<br>    security_groups = list(string)<br>    self            = string<br>  }))</pre> | `[]` | no |
 | instance\_refresh\_enabled | Enable weekly instance replacement. | `bool` | `false` | no |
 | instance\_type | Instance type | `string` | `"t2.micro"` | no |
 | key\_name | Defines a SSH keypair to access EB instances (leave empty to create one) | `string` | `""` | no |
