@@ -519,12 +519,13 @@ variable "associated_security_group_ids" {
 
 variable "ingress_rules" {
   type = list(object({
-    from_port   = string
-    to_port     = string
-    protocol    = string
-    description = string
-    cidr_blocks = list(string)
-    self        = string
+    from_port       = string
+    to_port         = string
+    protocol        = string
+    description     = string
+    cidr_blocks     = list(string)
+    security_groups = list(string)
+    self            = string
   }))
   default     = []
   description = "How long to wait for the security group to be created."
@@ -532,12 +533,13 @@ variable "ingress_rules" {
 
 variable "egress_rules" {
   type = list(object({
-    from_port   = string
-    to_port     = string
-    protocol    = string
-    description = string
-    cidr_blocks = list(string)
-    self        = string
+    from_port       = string
+    to_port         = string
+    protocol        = string
+    description     = string
+    cidr_blocks     = list(string)
+    security_groups = list(string)
+    self            = string
   }))
   default     = []
   description = "How long to wait for the security group to be created."
