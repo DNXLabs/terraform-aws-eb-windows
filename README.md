@@ -96,6 +96,7 @@ The following resources will be created:
 | hosted\_zone | Hosted zone to create the hostname | `string` | `""` | no |
 | hostnames | Hostname to create on route53 pointing to the EB CNAME (leave empty to prevent creation) | `list(string)` | `[]` | no |
 | http\_listener\_enabled | Enable port 80 (http) | `bool` | `true` | no |
+| iam\_role\_policy\_attachment\_to\_instance | List of policies ARN to be attach in the Elastic Beanstalk role instance. | <pre>list(object({<br>    name       = string<br>    policy_arn = string<br>  }))</pre> | `[]` | no |
 | ignore\_iam\_account\_alias | Disables data source for iam\_account\_alias used on cloudwatch alarms | `bool` | `false` | no |
 | ingress\_rules | How long to wait for the security group to be created. | <pre>list(object({<br>    from_port       = string<br>    to_port         = string<br>    protocol        = string<br>    description     = string<br>    cidr_blocks     = list(string)<br>    security_groups = list(string)<br>    self            = string<br>  }))</pre> | `[]` | no |
 | instance\_refresh\_enabled | Enable weekly instance replacement. | `bool` | `false` | no |
