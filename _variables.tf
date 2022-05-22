@@ -580,3 +580,12 @@ variable "s3_bucket_elb_logs_versioning_enabled" {
   default     = true
   description = "When set to 'true' the s3 origin bucket will have versioning enabled"
 }
+
+variable "iam_role_policy_attachment_to_instance" {
+  type = list(object({
+    name       = string
+    policy_arn = string
+  }))
+  default     = []
+  description = "List of policies ARN to be attach in the Elastic Beanstalk role instance."
+}
