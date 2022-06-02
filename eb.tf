@@ -16,11 +16,6 @@ locals {
       value     = "20"
     },
     {
-      name      = "HealthCheckPath"
-      namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = "/"
-    },
-    {
       name      = "HealthCheckTimeout"
       namespace = "aws:elasticbeanstalk:environment:process:default"
       value     = "5"
