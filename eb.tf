@@ -76,16 +76,6 @@ locals {
       value     = "80"
     },
     {
-      name      = "LargerInstanceTypeRequired"
-      namespace = "aws:cloudformation:template:parameter"
-      value     = "true"
-    },
-    {
-      name      = "SystemType"
-      namespace = "aws:cloudformation:template:parameter"
-      value     = "enhanced"
-    },
-    {
       name      = "ConfigDocument"
       namespace = "aws:elasticbeanstalk:healthreporting:system"
       value = jsonencode(
@@ -190,6 +180,16 @@ locals {
   ]
   
   eb_dotnet_settings = [
+    {
+      name      = "LargerInstanceTypeRequired"
+      namespace = "aws:cloudformation:template:parameter"
+      value     = "true"
+    },
+    {
+      name      = "SystemType"
+      namespace = "aws:cloudformation:template:parameter"
+      value     = "enhanced"
+    },
     {
       name      = "Enable 32-bit Applications"
       namespace = "aws:elasticbeanstalk:container:dotnet:apppool"
