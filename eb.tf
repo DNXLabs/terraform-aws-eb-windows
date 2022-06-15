@@ -119,7 +119,8 @@ locals {
               ApplicationRequests5xx    = try(var.coudwatch_instance_metrics.ApplicationRequests5xx, null)
               ApplicationRequestsTotal  = try(var.coudwatch_instance_metrics.ApplicationRequestsTotal, null)
               CPUIdle                   = try(var.coudwatch_instance_metrics.CPUIdle, null)
-              CPUPrivileged             = try(var.coudwatch_instance_metrics.CPUPrivileged, null)
+              "${var.eb_platform == 'dotnet' ? 'CPUPrivileged' : 'CPUSystem'}"
+                                        = try(var.coudwatch_instance_metrics["${var.eb_platform == 'dotnet' ? 'CPUPrivileged' : 'CPUSystem'}"], null)
               CPUUser                   = try(var.coudwatch_instance_metrics.CPUUser, null)
               InstanceHealth            = try(var.coudwatch_instance_metrics.InstanceHealth, null)
             }
