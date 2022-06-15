@@ -163,16 +163,6 @@ locals {
       value     = "enhanced"
     },
     {
-      name      = "Enable 32-bit Applications"
-      namespace = "aws:elasticbeanstalk:container:dotnet:apppool"
-      value     = "False"
-    },
-    {
-      name      = "Target Runtime"
-      namespace = "aws:elasticbeanstalk:container:dotnet:apppool"
-      value     = "4.0"
-    },
-    {
       name      = "InstanceRefreshEnabled"
       namespace = "aws:elasticbeanstalk:managedactions:platformupdate"
       value     = var.instance_refresh_enabled
@@ -196,6 +186,19 @@ locals {
       name      = "XRayEnabled"
       namespace = "aws:elasticbeanstalk:xray"
       value     = "true"
+    },
+  ]
+  
+  eb_dotnet_settings = [
+    {
+      name      = "Enable 32-bit Applications"
+      namespace = "aws:elasticbeanstalk:container:dotnet:apppool"
+      value     = "False"
+    },
+    {
+      name      = "Target Runtime"
+      namespace = "aws:elasticbeanstalk:container:dotnet:apppool"
+      value     = "4.0"
     },
   ]
 
@@ -591,12 +594,13 @@ locals {
   # If the tier is "WebServer" add the elb_settings, otherwise exclude them
   elb_settings_final = var.eb_tier == "WebServer" ? concat(local.elb_settings_nlb, local.elb_settings_alb, local.elb_settings_shared_alb) : []
 
+  eb_defaults = var.eb_platform == "dotnet" ? concat(local.eb_default_settings, local.eb_dotnet_settings) : local.eb_default_settings
+  
   # Grab all elastic beanstalk settings
-  eb_settings = concat(local.eb_default_settings, local.eb_vpc, local.eb_asg, local.eb_launch_config, local.eb_cloudwatch)
+  eb_settings = concat(local.eb_defaults, local.eb_vpc, local.eb_asg, local.eb_launch_config, local.eb_cloudwatch)
 
   # Put all settings together
   eb_settings_final = concat(local.eb_settings, local.elb_settings_final)
-
 }
 
 resource "aws_elastic_beanstalk_application" "app" {
