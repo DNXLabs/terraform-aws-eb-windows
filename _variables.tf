@@ -13,6 +13,11 @@ variable "environment" {
   description = "Name of this environment"
 }
 
+variable "eb_platform" {
+  default     = "dotnet"
+  description = "Platform type, e.g. 'dotnet', 'dotnetcorelinux'"
+}
+
 variable "eb_solution_stack_name" {
   description = "Stack name passed to ElasticBeanstalk"
 }

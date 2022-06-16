@@ -72,6 +72,7 @@ The following resources will be created:
 | deployment\_timeout | Number of seconds to wait for an instance to complete executing commands | `number` | `600` | no |
 | description | Short description of the Environment | `string` | `""` | no |
 | eb\_application\_name | EB application name (empty value will create an application) | `string` | `""` | no |
+| eb\_platform | EB platform name (empty value will default to .NET Framework on windows). The following values are supported: `dotnet`, `dotnetcorelinux` | `string` | `"dotnet"` | no |
 | eb\_solution\_stack\_name | Stack name passed to ElasticBeanstalk | `any` | n/a | yes |
 | eb\_tier | Elastic Beanstalk Environment tier, 'WebServer' or 'Worker' | `string` | `"WebServer"` | no |
 | eb\_version\_label | Elastic Beanstalk Application version to deploy | `string` | `""` | no |
