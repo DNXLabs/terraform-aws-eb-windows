@@ -78,7 +78,7 @@ locals {
     {
       name      = "ConfigDocument"
       namespace = "aws:elasticbeanstalk:healthreporting:system"
-      value = var.eb_platform == "dotnet"
+      value = (var.eb_platform == "dotnet"
         ? jsonencode(
         {
           CloudWatchMetrics = {
@@ -204,7 +204,7 @@ locals {
           }
           Version = 1
         }
-      )
+      ))
     },
     {
       name      = "HealthCheckSuccessThreshold"
