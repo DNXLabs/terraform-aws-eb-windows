@@ -183,7 +183,7 @@ locals {
               ApplicationRequests5xx    = try(var.coudwatch_instance_metrics.ApplicationRequests5xx, null)
               ApplicationRequestsTotal  = try(var.coudwatch_instance_metrics.ApplicationRequestsTotal, null)
               CPUIdle                   = try(var.coudwatch_instance_metrics.CPUIdle, null)
-              CPUSystem                 = try(var.coudwatch_instance_metricsCPUSystem, null)
+              CPUSystem                 = try(var.coudwatch_instance_metrics.CPUSystem, null)
               CPUUser                   = try(var.coudwatch_instance_metrics.CPUUser, null)
               InstanceHealth            = try(var.coudwatch_instance_metrics.InstanceHealth, null)
             }
