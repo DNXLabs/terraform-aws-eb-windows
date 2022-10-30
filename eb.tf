@@ -453,6 +453,11 @@ locals {
       namespace = "aws:autoscaling:launchconfiguration"
       value     = "5 minute"
     },
+    {
+      name      = "DisableIMDSv1"
+      namespace = "aws:autoscaling:launchconfiguration"
+      value     = "true"
+    },
   ]
 
   eb_cloudwatch = [
