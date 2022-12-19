@@ -573,6 +573,21 @@ locals {
       name      = "HealthCheckTimeout"
       namespace = "aws:elasticbeanstalk:environment:process:default"
       value     = var.healthcheck_timeout
+    },
+    {
+      name      = "StickinessEnabled"
+      namespace = "aws:elasticbeanstalk:environment:process:default"
+      value     = var.stickiness_enabled
+    },
+    {
+      name      = "StickinessLBCookieDuration"
+      namespace = "aws:elasticbeanstalk:environment:process:default"
+      value     = var.stickiness_expiration
+    },
+    {
+      name      = "StickinessType"
+      namespace = "aws:elasticbeanstalk:environment:process:default"
+      value     = "lb_cookie"
     }
   ]
 
@@ -635,21 +650,6 @@ locals {
       name      = "UnhealthyThresholdCount"
       namespace = "aws:elasticbeanstalk:environment:process:default"
       value     = var.healthcheck_unhealthy_threshold_count
-    },
-    {
-      name      = "StickinessEnabled"
-      namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = var.stickiness_enabled
-    },
-    {
-      name      = "StickinessLBCookieDuration"
-      namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = var.stickiness_expiration
-    },
-    {
-      name      = "StickinessType"
-      namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = "lb_cookie"
     },
   ]
 
