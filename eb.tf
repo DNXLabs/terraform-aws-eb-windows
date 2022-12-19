@@ -16,11 +16,6 @@ locals {
       value     = "20"
     },
     {
-      name      = "HealthCheckTimeout"
-      namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = "5"
-    },
-    {
       name      = "RollbackLaunchOnFailure"
       namespace = "aws:elasticbeanstalk:control"
       value     = "false"
