@@ -68,7 +68,7 @@ locals {
     {
       name      = "InstancePort"
       namespace = "aws:cloudformation:template:parameter"
-      value     = "80"
+      value     = "${var.application_port}"
     },
     {
       name      = "ConfigDocument"
@@ -494,11 +494,6 @@ locals {
   ]
 
   generic_alb_settings = [
-    {
-      name      = "SecurityGroups"
-      namespace = "aws:elbv2:loadbalancer"
-      value     = join(",", sort(var.loadbalancer_security_groups))
-    }
   ]
 
   shared_alb_settings = [
@@ -645,6 +640,11 @@ locals {
       name      = "UnhealthyThresholdCount"
       namespace = "aws:elasticbeanstalk:environment:process:default"
       value     = var.healthcheck_unhealthy_threshold_count
+    },
+    {
+      name      = "SecurityGroups"
+      namespace = "aws:elbv2:loadbalancer"
+      value     = join(",", sort(var.loadbalancer_security_groups))
     },
   ]
 
