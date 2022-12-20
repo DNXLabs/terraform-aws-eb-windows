@@ -68,7 +68,7 @@ locals {
     {
       name      = "InstancePort"
       namespace = "aws:cloudformation:template:parameter"
-      value     = "${var.application_port}"
+      value     = "${var.loadbalancer_type == "network" ? var.application_port : 80}"
     },
     {
       name      = "ConfigDocument"
