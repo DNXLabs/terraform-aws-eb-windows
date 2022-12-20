@@ -494,6 +494,11 @@ locals {
   ]
 
   generic_alb_settings = [
+    {
+      name      = "SecurityGroups"
+      namespace = "aws:elbv2:loadbalancer"
+      value     = join(",", sort(var.loadbalancer_security_groups))
+    }
   ]
 
   shared_alb_settings = [
@@ -640,12 +645,7 @@ locals {
       name      = "UnhealthyThresholdCount"
       namespace = "aws:elasticbeanstalk:environment:process:default"
       value     = var.healthcheck_unhealthy_threshold_count
-    },
-    {
-      name      = "SecurityGroups"
-      namespace = "aws:elbv2:loadbalancer"
-      value     = join(",", sort(var.loadbalancer_security_groups))
-    },
+    }
   ]
 
   alb_settings = var.loadbalancer_access_logs_s3_enabled ? concat(local.alb_default_settings, local.alb_logs_settings) : local.alb_default_settings
