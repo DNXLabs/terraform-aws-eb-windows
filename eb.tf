@@ -16,11 +16,6 @@ locals {
       value     = "20"
     },
     {
-      name      = "HealthCheckTimeout"
-      namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = "5"
-    },
-    {
       name      = "RollbackLaunchOnFailure"
       namespace = "aws:elasticbeanstalk:control"
       value     = "false"
@@ -453,6 +448,11 @@ locals {
       namespace = "aws:autoscaling:launchconfiguration"
       value     = "5 minute"
     },
+    {
+      name      = "DisableIMDSv1"
+      namespace = "aws:autoscaling:launchconfiguration"
+      value     = "true"
+    },
   ]
 
   eb_cloudwatch = [
@@ -568,6 +568,21 @@ locals {
       name      = "HealthCheckTimeout"
       namespace = "aws:elasticbeanstalk:environment:process:default"
       value     = var.healthcheck_timeout
+    },
+    {
+      name      = "StickinessEnabled"
+      namespace = "aws:elasticbeanstalk:environment:process:default"
+      value     = var.stickiness_enabled
+    },
+    {
+      name      = "StickinessLBCookieDuration"
+      namespace = "aws:elasticbeanstalk:environment:process:default"
+      value     = var.stickiness_expiration
+    },
+    {
+      name      = "StickinessType"
+      namespace = "aws:elasticbeanstalk:environment:process:default"
+      value     = "lb_cookie"
     }
   ]
 
@@ -630,22 +645,7 @@ locals {
       name      = "UnhealthyThresholdCount"
       namespace = "aws:elasticbeanstalk:environment:process:default"
       value     = var.healthcheck_unhealthy_threshold_count
-    },
-    {
-      name      = "StickinessEnabled"
-      namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = var.stickiness_enabled
-    },
-    {
-      name      = "StickinessLBCookieDuration"
-      namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = var.stickiness_expiration
-    },
-    {
-      name      = "StickinessType"
-      namespace = "aws:elasticbeanstalk:environment:process:default"
-      value     = "lb_cookie"
-    },
+    }
   ]
 
   alb_settings = var.loadbalancer_access_logs_s3_enabled ? concat(local.alb_default_settings, local.alb_logs_settings) : local.alb_default_settings
