@@ -75,130 +75,130 @@ locals {
       namespace = "aws:elasticbeanstalk:healthreporting:system"
       value = (var.eb_platform == "dotnet"
         ? jsonencode(
-        {
-          CloudWatchMetrics = {
-            Environment = {
-              ApplicationLatencyP10     = try(var.coudwatch_environment_metrics.ApplicationLatencyP10, null)
-              ApplicationLatencyP50     = try(var.coudwatch_environment_metrics.ApplicationLatencyP50, null)
-              ApplicationLatencyP75     = try(var.coudwatch_environment_metrics.ApplicationLatencyP75, null)
-              ApplicationLatencyP85     = try(var.coudwatch_environment_metrics.ApplicationLatencyP85, null)
-              ApplicationLatencyP90     = try(var.coudwatch_environment_metrics.ApplicationLatencyP90, null)
-              ApplicationLatencyP95     = try(var.coudwatch_environment_metrics.ApplicationLatencyP95, null)
-              ApplicationLatencyP99     = try(var.coudwatch_environment_metrics.ApplicationLatencyP99, null)
-              "ApplicationLatencyP99.9" = try(var.coudwatch_environment_metrics.ApplicationLatencyP99.9, null)
-              ApplicationRequests2xx    = try(var.coudwatch_environment_metrics.ApplicationRequests2xx, null)
-              ApplicationRequests3xx    = try(var.coudwatch_environment_metrics.ApplicationRequests3xx, null)
-              ApplicationRequests4xx    = try(var.coudwatch_environment_metrics.ApplicationRequests4xx, null)
-              ApplicationRequests5xx    = try(var.coudwatch_environment_metrics.ApplicationRequests5xx, null)
-              ApplicationRequestsTotal  = try(var.coudwatch_environment_metrics.ApplicationRequestsTotal, null)
-              InstancesDegraded         = try(var.coudwatch_environment_metrics.InstancesDegraded, null)
-              InstancesInfo             = try(var.coudwatch_environment_metrics.InstancesInfo, null)
-              InstancesNoData           = try(var.coudwatch_environment_metrics.InstancesNoData, null)
-              InstancesOk               = try(var.coudwatch_environment_metrics.InstancesOk, null)
-              InstancesPending          = try(var.coudwatch_environment_metrics.InstancesPending, null)
-              InstancesSevere           = try(var.coudwatch_environment_metrics.InstancesSevere, null)
-              InstancesUnknown          = try(var.coudwatch_environment_metrics.InstancesUnknown, null)
-              InstancesWarning          = try(var.coudwatch_environment_metrics.InstancesWarning, null)
-            }
-            Instance = {
-              ApplicationLatencyP10     = try(var.coudwatch_instance_metrics.ApplicationLatencyP10, null)
-              ApplicationLatencyP50     = try(var.coudwatch_instance_metrics.ApplicationLatencyP50, null)
-              ApplicationLatencyP75     = try(var.coudwatch_instance_metrics.ApplicationLatencyP75, null)
-              ApplicationLatencyP85     = try(var.coudwatch_instance_metrics.ApplicationLatencyP85, null)
-              ApplicationLatencyP90     = try(var.coudwatch_instance_metrics.ApplicationLatencyP90, null)
-              ApplicationLatencyP95     = try(var.coudwatch_instance_metrics.ApplicationLatencyP95, null)
-              ApplicationLatencyP99     = try(var.coudwatch_instance_metrics.ApplicationLatencyP99, null)
-              "ApplicationLatencyP99.9" = try(var.coudwatch_instance_metrics.ApplicationLatencyP99.9, null)
-              ApplicationRequests2xx    = try(var.coudwatch_instance_metrics.ApplicationRequests2xx, null)
-              ApplicationRequests3xx    = try(var.coudwatch_instance_metrics.ApplicationRequests3xx, null)
-              ApplicationRequests4xx    = try(var.coudwatch_instance_metrics.ApplicationRequests4xx, null)
-              ApplicationRequests5xx    = try(var.coudwatch_instance_metrics.ApplicationRequests5xx, null)
-              ApplicationRequestsTotal  = try(var.coudwatch_instance_metrics.ApplicationRequestsTotal, null)
-              CPUIdle                   = try(var.coudwatch_instance_metrics.CPUIdle, null)
-              CPUPrivileged             = try(var.coudwatch_instance_metrics.CPUPrivileged, null)
-              CPUUser                   = try(var.coudwatch_instance_metrics.CPUUser, null)
-              InstanceHealth            = try(var.coudwatch_instance_metrics.InstanceHealth, null)
-            }
-          }
-          Rules = {
-            Environment = {
-              Application = {
-                ApplicationRequests4xx = {
-                  Enabled = true
-                }
+          {
+            CloudWatchMetrics = {
+              Environment = {
+                ApplicationLatencyP10     = try(var.coudwatch_environment_metrics.ApplicationLatencyP10, null)
+                ApplicationLatencyP50     = try(var.coudwatch_environment_metrics.ApplicationLatencyP50, null)
+                ApplicationLatencyP75     = try(var.coudwatch_environment_metrics.ApplicationLatencyP75, null)
+                ApplicationLatencyP85     = try(var.coudwatch_environment_metrics.ApplicationLatencyP85, null)
+                ApplicationLatencyP90     = try(var.coudwatch_environment_metrics.ApplicationLatencyP90, null)
+                ApplicationLatencyP95     = try(var.coudwatch_environment_metrics.ApplicationLatencyP95, null)
+                ApplicationLatencyP99     = try(var.coudwatch_environment_metrics.ApplicationLatencyP99, null)
+                "ApplicationLatencyP99.9" = try(var.coudwatch_environment_metrics.ApplicationLatencyP99.9, null)
+                ApplicationRequests2xx    = try(var.coudwatch_environment_metrics.ApplicationRequests2xx, null)
+                ApplicationRequests3xx    = try(var.coudwatch_environment_metrics.ApplicationRequests3xx, null)
+                ApplicationRequests4xx    = try(var.coudwatch_environment_metrics.ApplicationRequests4xx, null)
+                ApplicationRequests5xx    = try(var.coudwatch_environment_metrics.ApplicationRequests5xx, null)
+                ApplicationRequestsTotal  = try(var.coudwatch_environment_metrics.ApplicationRequestsTotal, null)
+                InstancesDegraded         = try(var.coudwatch_environment_metrics.InstancesDegraded, null)
+                InstancesInfo             = try(var.coudwatch_environment_metrics.InstancesInfo, null)
+                InstancesNoData           = try(var.coudwatch_environment_metrics.InstancesNoData, null)
+                InstancesOk               = try(var.coudwatch_environment_metrics.InstancesOk, null)
+                InstancesPending          = try(var.coudwatch_environment_metrics.InstancesPending, null)
+                InstancesSevere           = try(var.coudwatch_environment_metrics.InstancesSevere, null)
+                InstancesUnknown          = try(var.coudwatch_environment_metrics.InstancesUnknown, null)
+                InstancesWarning          = try(var.coudwatch_environment_metrics.InstancesWarning, null)
               }
-              ELB = {
-                ELBRequests4xx = {
-                  Enabled = true
-                }
+              Instance = {
+                ApplicationLatencyP10     = try(var.coudwatch_instance_metrics.ApplicationLatencyP10, null)
+                ApplicationLatencyP50     = try(var.coudwatch_instance_metrics.ApplicationLatencyP50, null)
+                ApplicationLatencyP75     = try(var.coudwatch_instance_metrics.ApplicationLatencyP75, null)
+                ApplicationLatencyP85     = try(var.coudwatch_instance_metrics.ApplicationLatencyP85, null)
+                ApplicationLatencyP90     = try(var.coudwatch_instance_metrics.ApplicationLatencyP90, null)
+                ApplicationLatencyP95     = try(var.coudwatch_instance_metrics.ApplicationLatencyP95, null)
+                ApplicationLatencyP99     = try(var.coudwatch_instance_metrics.ApplicationLatencyP99, null)
+                "ApplicationLatencyP99.9" = try(var.coudwatch_instance_metrics.ApplicationLatencyP99.9, null)
+                ApplicationRequests2xx    = try(var.coudwatch_instance_metrics.ApplicationRequests2xx, null)
+                ApplicationRequests3xx    = try(var.coudwatch_instance_metrics.ApplicationRequests3xx, null)
+                ApplicationRequests4xx    = try(var.coudwatch_instance_metrics.ApplicationRequests4xx, null)
+                ApplicationRequests5xx    = try(var.coudwatch_instance_metrics.ApplicationRequests5xx, null)
+                ApplicationRequestsTotal  = try(var.coudwatch_instance_metrics.ApplicationRequestsTotal, null)
+                CPUIdle                   = try(var.coudwatch_instance_metrics.CPUIdle, null)
+                CPUPrivileged             = try(var.coudwatch_instance_metrics.CPUPrivileged, null)
+                CPUUser                   = try(var.coudwatch_instance_metrics.CPUUser, null)
+                InstanceHealth            = try(var.coudwatch_instance_metrics.InstanceHealth, null)
               }
             }
-          }
-          Version = 1
-        }
-      )
-      : jsonencode(
-        {
-          CloudWatchMetrics = {
-            Environment = {
-              ApplicationLatencyP10     = try(var.coudwatch_environment_metrics.ApplicationLatencyP10, null)
-              ApplicationLatencyP50     = try(var.coudwatch_environment_metrics.ApplicationLatencyP50, null)
-              ApplicationLatencyP75     = try(var.coudwatch_environment_metrics.ApplicationLatencyP75, null)
-              ApplicationLatencyP85     = try(var.coudwatch_environment_metrics.ApplicationLatencyP85, null)
-              ApplicationLatencyP90     = try(var.coudwatch_environment_metrics.ApplicationLatencyP90, null)
-              ApplicationLatencyP95     = try(var.coudwatch_environment_metrics.ApplicationLatencyP95, null)
-              ApplicationLatencyP99     = try(var.coudwatch_environment_metrics.ApplicationLatencyP99, null)
-              "ApplicationLatencyP99.9" = try(var.coudwatch_environment_metrics.ApplicationLatencyP99.9, null)
-              ApplicationRequests2xx    = try(var.coudwatch_environment_metrics.ApplicationRequests2xx, null)
-              ApplicationRequests3xx    = try(var.coudwatch_environment_metrics.ApplicationRequests3xx, null)
-              ApplicationRequests4xx    = try(var.coudwatch_environment_metrics.ApplicationRequests4xx, null)
-              ApplicationRequests5xx    = try(var.coudwatch_environment_metrics.ApplicationRequests5xx, null)
-              ApplicationRequestsTotal  = try(var.coudwatch_environment_metrics.ApplicationRequestsTotal, null)
-              InstancesDegraded         = try(var.coudwatch_environment_metrics.InstancesDegraded, null)
-              InstancesInfo             = try(var.coudwatch_environment_metrics.InstancesInfo, null)
-              InstancesNoData           = try(var.coudwatch_environment_metrics.InstancesNoData, null)
-              InstancesOk               = try(var.coudwatch_environment_metrics.InstancesOk, null)
-              InstancesPending          = try(var.coudwatch_environment_metrics.InstancesPending, null)
-              InstancesSevere           = try(var.coudwatch_environment_metrics.InstancesSevere, null)
-              InstancesUnknown          = try(var.coudwatch_environment_metrics.InstancesUnknown, null)
-              InstancesWarning          = try(var.coudwatch_environment_metrics.InstancesWarning, null)
-            }
-            Instance = {
-              ApplicationLatencyP10     = try(var.coudwatch_instance_metrics.ApplicationLatencyP10, null)
-              ApplicationLatencyP50     = try(var.coudwatch_instance_metrics.ApplicationLatencyP50, null)
-              ApplicationLatencyP75     = try(var.coudwatch_instance_metrics.ApplicationLatencyP75, null)
-              ApplicationLatencyP85     = try(var.coudwatch_instance_metrics.ApplicationLatencyP85, null)
-              ApplicationLatencyP90     = try(var.coudwatch_instance_metrics.ApplicationLatencyP90, null)
-              ApplicationLatencyP95     = try(var.coudwatch_instance_metrics.ApplicationLatencyP95, null)
-              ApplicationLatencyP99     = try(var.coudwatch_instance_metrics.ApplicationLatencyP99, null)
-              "ApplicationLatencyP99.9" = try(var.coudwatch_instance_metrics.ApplicationLatencyP99.9, null)
-              ApplicationRequests2xx    = try(var.coudwatch_instance_metrics.ApplicationRequests2xx, null)
-              ApplicationRequests3xx    = try(var.coudwatch_instance_metrics.ApplicationRequests3xx, null)
-              ApplicationRequests4xx    = try(var.coudwatch_instance_metrics.ApplicationRequests4xx, null)
-              ApplicationRequests5xx    = try(var.coudwatch_instance_metrics.ApplicationRequests5xx, null)
-              ApplicationRequestsTotal  = try(var.coudwatch_instance_metrics.ApplicationRequestsTotal, null)
-              CPUIdle                   = try(var.coudwatch_instance_metrics.CPUIdle, null)
-              CPUSystem                 = try(var.coudwatch_instance_metrics.CPUSystem, null)
-              CPUUser                   = try(var.coudwatch_instance_metrics.CPUUser, null)
-              InstanceHealth            = try(var.coudwatch_instance_metrics.InstanceHealth, null)
-            }
-          }
-          Rules = {
-            Environment = {
-              Application = {
-                ApplicationRequests4xx = {
-                  Enabled = true
+            Rules = {
+              Environment = {
+                Application = {
+                  ApplicationRequests4xx = {
+                    Enabled = true
+                  }
                 }
-              }
-              ELB = {
-                ELBRequests4xx = {
-                  Enabled = true
+                ELB = {
+                  ELBRequests4xx = {
+                    Enabled = true
+                  }
                 }
               }
             }
+            Version = 1
           }
-          Version = 1
-        }
+        )
+        : jsonencode(
+          {
+            CloudWatchMetrics = {
+              Environment = {
+                ApplicationLatencyP10     = try(var.coudwatch_environment_metrics.ApplicationLatencyP10, null)
+                ApplicationLatencyP50     = try(var.coudwatch_environment_metrics.ApplicationLatencyP50, null)
+                ApplicationLatencyP75     = try(var.coudwatch_environment_metrics.ApplicationLatencyP75, null)
+                ApplicationLatencyP85     = try(var.coudwatch_environment_metrics.ApplicationLatencyP85, null)
+                ApplicationLatencyP90     = try(var.coudwatch_environment_metrics.ApplicationLatencyP90, null)
+                ApplicationLatencyP95     = try(var.coudwatch_environment_metrics.ApplicationLatencyP95, null)
+                ApplicationLatencyP99     = try(var.coudwatch_environment_metrics.ApplicationLatencyP99, null)
+                "ApplicationLatencyP99.9" = try(var.coudwatch_environment_metrics.ApplicationLatencyP99.9, null)
+                ApplicationRequests2xx    = try(var.coudwatch_environment_metrics.ApplicationRequests2xx, null)
+                ApplicationRequests3xx    = try(var.coudwatch_environment_metrics.ApplicationRequests3xx, null)
+                ApplicationRequests4xx    = try(var.coudwatch_environment_metrics.ApplicationRequests4xx, null)
+                ApplicationRequests5xx    = try(var.coudwatch_environment_metrics.ApplicationRequests5xx, null)
+                ApplicationRequestsTotal  = try(var.coudwatch_environment_metrics.ApplicationRequestsTotal, null)
+                InstancesDegraded         = try(var.coudwatch_environment_metrics.InstancesDegraded, null)
+                InstancesInfo             = try(var.coudwatch_environment_metrics.InstancesInfo, null)
+                InstancesNoData           = try(var.coudwatch_environment_metrics.InstancesNoData, null)
+                InstancesOk               = try(var.coudwatch_environment_metrics.InstancesOk, null)
+                InstancesPending          = try(var.coudwatch_environment_metrics.InstancesPending, null)
+                InstancesSevere           = try(var.coudwatch_environment_metrics.InstancesSevere, null)
+                InstancesUnknown          = try(var.coudwatch_environment_metrics.InstancesUnknown, null)
+                InstancesWarning          = try(var.coudwatch_environment_metrics.InstancesWarning, null)
+              }
+              Instance = {
+                ApplicationLatencyP10     = try(var.coudwatch_instance_metrics.ApplicationLatencyP10, null)
+                ApplicationLatencyP50     = try(var.coudwatch_instance_metrics.ApplicationLatencyP50, null)
+                ApplicationLatencyP75     = try(var.coudwatch_instance_metrics.ApplicationLatencyP75, null)
+                ApplicationLatencyP85     = try(var.coudwatch_instance_metrics.ApplicationLatencyP85, null)
+                ApplicationLatencyP90     = try(var.coudwatch_instance_metrics.ApplicationLatencyP90, null)
+                ApplicationLatencyP95     = try(var.coudwatch_instance_metrics.ApplicationLatencyP95, null)
+                ApplicationLatencyP99     = try(var.coudwatch_instance_metrics.ApplicationLatencyP99, null)
+                "ApplicationLatencyP99.9" = try(var.coudwatch_instance_metrics.ApplicationLatencyP99.9, null)
+                ApplicationRequests2xx    = try(var.coudwatch_instance_metrics.ApplicationRequests2xx, null)
+                ApplicationRequests3xx    = try(var.coudwatch_instance_metrics.ApplicationRequests3xx, null)
+                ApplicationRequests4xx    = try(var.coudwatch_instance_metrics.ApplicationRequests4xx, null)
+                ApplicationRequests5xx    = try(var.coudwatch_instance_metrics.ApplicationRequests5xx, null)
+                ApplicationRequestsTotal  = try(var.coudwatch_instance_metrics.ApplicationRequestsTotal, null)
+                CPUIdle                   = try(var.coudwatch_instance_metrics.CPUIdle, null)
+                CPUSystem                 = try(var.coudwatch_instance_metrics.CPUSystem, null)
+                CPUUser                   = try(var.coudwatch_instance_metrics.CPUUser, null)
+                InstanceHealth            = try(var.coudwatch_instance_metrics.InstanceHealth, null)
+              }
+            }
+            Rules = {
+              Environment = {
+                Application = {
+                  ApplicationRequests4xx = {
+                    Enabled = true
+                  }
+                }
+                ELB = {
+                  ELBRequests4xx = {
+                    Enabled = true
+                  }
+                }
+              }
+            }
+            Version = 1
+          }
       ))
     },
     {
@@ -237,7 +237,7 @@ locals {
       value     = "true"
     },
   ]
-  
+
   eb_dotnet_settings = [
     {
       name      = "LargerInstanceTypeRequired"
@@ -659,7 +659,7 @@ locals {
   elb_settings_final = var.eb_tier == "WebServer" ? concat(local.elb_settings_nlb, local.elb_settings_alb, local.elb_settings_shared_alb) : []
 
   eb_defaults = var.eb_platform == "dotnet" ? concat(local.eb_default_settings, local.eb_dotnet_settings) : local.eb_default_settings
-  
+
   # Grab all elastic beanstalk settings
   eb_settings = concat(local.eb_defaults, local.eb_vpc, local.eb_asg, local.eb_launch_config, local.eb_cloudwatch)
 
