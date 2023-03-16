@@ -594,3 +594,9 @@ variable "iam_role_policy_attachment_to_instance" {
   default     = []
   description = "List of policies ARN to be attach in the Elastic Beanstalk role instance."
 }
+
+variable "solutions_stack_name_regex" {
+  type        = string
+  default     = ""
+  description = "Regex string to apply to the solution stack list returned by AWS"
+}
