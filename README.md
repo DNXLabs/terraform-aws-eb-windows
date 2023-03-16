@@ -132,6 +132,7 @@ The following resources will be created:
 | security\_group\_description | The description to assign to the created Security Group.<br>Warning: Changing the description causes the security group to be replaced. | `string` | `"Security Group for ElasticBean Stalk"` | no |
 | security\_group\_name | The name to assign to the created security group. Must be unique within the VPC.<br>If not provided, will be derived from the `null-label.context` passed in. | `string` | n/a | yes |
 | shared\_loadbalancer\_arn | ARN of the shared application load balancer. Only when loadbalancer\_type = "application". | `string` | `""` | no |
+| solutions\_stack\_name\_regex | Regex string to apply to the solution stack list returned by AWS | `string` | `""` | no |
 | spot\_fleet\_on\_demand\_above\_base\_percentage | The percentage of On-Demand Instances as part of additional capacity that your Auto Scaling group provisions beyond the SpotOnDemandBase instances. This option is relevant only when enable\_spot\_instances is true. | `number` | `-1` | no |
 | spot\_fleet\_on\_demand\_base | The minimum number of On-Demand Instances that your Auto Scaling group provisions before considering Spot Instances as your environment scales up. This option is relevant only when enable\_spot\_instances is true. | `number` | `0` | no |
 | spot\_max\_price | The maximum price per unit hour, in US$, that you're willing to pay for a Spot Instance. This option is relevant only when enable\_spot\_instances is true. Valid values are between 0.001 and 20.0 | `number` | `-1` | no |
