@@ -707,7 +707,7 @@ resource "aws_elastic_beanstalk_environment" "env" {
 }
 
 data "aws_elastic_beanstalk_solution_stack" "solution_stack" {
-  count       = var.solutions_stack_name_regex ? 1 : 0
+  count       = length(var.solutions_stack_name_regex) > 0 ? 1 : 0
   most_recent = true
 
   name_regex  = var.solutions_stack_name_regex
