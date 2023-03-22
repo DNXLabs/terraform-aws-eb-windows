@@ -23,3 +23,7 @@ output "eb_load_balancers" {
 output "eb_aws_security_group_id" {
   value = try(aws_security_group.eb[0].id, "")
 }
+
+output "eb_environment_cname" {
+  value = try(aws_elastic_beanstalk_environment.env.cname, "")
+}

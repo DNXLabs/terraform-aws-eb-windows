@@ -30,21 +30,8 @@ data "aws_iam_policy_document" "elb_logs" {
 resource "aws_s3_bucket" "elb_logs" {
   count         = var.s3_bucket_elb_logs_create && var.eb_tier == "WebServer" && var.environment_type == "LoadBalanced" && var.loadbalancer_type != "network" && !var.loadbalancer_is_shared ? 1 : 0
   bucket        = local.bucket_elb_logs_name
-  acl           = "private"
   force_destroy = var.s3_bucket_elb_logs_force_destroy
   policy        = join("", data.aws_iam_policy_document.elb_logs.*.json)
-
-  dynamic "server_side_encryption_configuration" {
-    for_each = var.s3_bucket_elb_logs_encryption_enabled ? ["true"] : []
-
-    content {
-      rule {
-        apply_server_side_encryption_by_default {
-          sse_algorithm = "AES256"
-        }
-      }
-    }
-  }
 
   versioning {
     enabled = var.s3_bucket_elb_logs_versioning_enabled
@@ -57,4 +44,22 @@ resource "aws_s3_bucket" "elb_logs" {
       target_prefix = "logs/${local.name_lowercase}/"
     }
   }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "elb_logs" {
+  count = var.s3_bucket_elb_logs_encryption_enabled && var.s3_bucket_elb_logs_create && var.eb_tier == "WebServer" && var.environment_type == "LoadBalanced" && var.loadbalancer_type != "network" && !var.loadbalancer_is_shared ? 1 : 0
+
+  bucket = aws_s3_bucket.elb_logs[count.index].id
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
+resource "aws_s3_bucket_acl" "elb_logs" {
+  count = var.s3_bucket_elb_logs_create && var.eb_tier == "WebServer" && var.environment_type == "LoadBalanced" && var.loadbalancer_type != "network" && !var.loadbalancer_is_shared ? 1 : 0
+
+  bucket = aws_s3_bucket.elb_logs[count.index].id
+  acl    = "private"
 }

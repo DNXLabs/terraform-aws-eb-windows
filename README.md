@@ -150,6 +150,7 @@ The following resources will be created:
 | eb\_aws\_security\_group\_id | n/a |
 | eb\_environment\_id | n/a |
 | eb\_load\_balancers | n/a |
+| eb\_environment\_cname | CNAME of the environment for more complex DNS scenarios |
 | iam\_role\_eb\_arn | ARN for EB IAM role |
 | iam\_role\_eb\_name | Name of EB IAM role |
 | ssm\_association\_join\_domain\_automation | n/a |
