@@ -677,7 +677,7 @@ resource "aws_elastic_beanstalk_environment" "env" {
   name                   = "${var.name}-${var.environment}"
   cname_prefix           = var.eb_tier == "WebServer" ? "${var.name}-${var.environment}" : null
   application            = var.eb_application_name == "" ? aws_elastic_beanstalk_application.app[0].name : var.eb_application_name
-  solution_stack_name    = var.eb_solution_stack_name
+  solution_stack_name    = length(try(data.aws_elastic_beanstalk_solution_stack.solution_stack[0].name, "")) > 0 ? data.aws_elastic_beanstalk_solution_stack.solution_stack[0].name : var.eb_solution_stack_name
   description            = var.description
   tier                   = var.eb_tier
   wait_for_ready_timeout = var.eb_wait_for_ready_timeout
@@ -706,3 +706,9 @@ resource "aws_elastic_beanstalk_environment" "env" {
   }
 }
 
+data "aws_elastic_beanstalk_solution_stack" "solution_stack" {
+  count       = length(var.solutions_stack_name_regex) > 0 ? 1 : 0
+  most_recent = true
+
+  name_regex  = var.solutions_stack_name_regex
+}

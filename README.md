@@ -75,7 +75,7 @@ The following resources will be created:
 | eb\_platform | Platform type, e.g. 'dotnet', 'dotnetcorelinux' | `string` | `"dotnet"` | no |
 | eb\_solution\_stack\_name | Stack name passed to ElasticBeanstalk | `any` | n/a | yes |
 | eb\_tier | Elastic Beanstalk Environment tier, 'WebServer' or 'Worker' | `string` | `"WebServer"` | no |
-| eb\_version\_label | Elastic Beanstalk Application version to deploy | `string` | `"default"` | no |
+| eb\_version\_label | Elastic Beanstalk Application version to deploy | `string` | `""` | no |
 | eb\_wait\_for\_ready\_timeout | The maximum duration to wait for the Elastic Beanstalk Environment to be in a ready state before timing out | `string` | `"20m"` | no |
 | egress\_rules | How long to wait for the security group to be created. | <pre>list(object({<br>    from_port       = string<br>    to_port         = string<br>    protocol        = string<br>    description     = string<br>    cidr_blocks     = list(string)<br>    security_groups = list(string)<br>    self            = string<br>  }))</pre> | `[]` | no |
 | elb\_scheme | Specify `internal` if you want to create an internal load balancer in your Amazon VPC so that your Elastic Beanstalk application cannot be accessed from outside your Amazon VPC | `string` | `"public"` | no |
@@ -132,6 +132,7 @@ The following resources will be created:
 | security\_group\_description | The description to assign to the created Security Group.<br>Warning: Changing the description causes the security group to be replaced. | `string` | `"Security Group for ElasticBean Stalk"` | no |
 | security\_group\_name | The name to assign to the created security group. Must be unique within the VPC.<br>If not provided, will be derived from the `null-label.context` passed in. | `string` | n/a | yes |
 | shared\_loadbalancer\_arn | ARN of the shared application load balancer. Only when loadbalancer\_type = "application". | `string` | `""` | no |
+| solutions\_stack\_name\_regex | Regex string to apply to the solution stack list returned by AWS | `string` | `""` | no |
 | spot\_fleet\_on\_demand\_above\_base\_percentage | The percentage of On-Demand Instances as part of additional capacity that your Auto Scaling group provisions beyond the SpotOnDemandBase instances. This option is relevant only when enable\_spot\_instances is true. | `number` | `-1` | no |
 | spot\_fleet\_on\_demand\_base | The minimum number of On-Demand Instances that your Auto Scaling group provisions before considering Spot Instances as your environment scales up. This option is relevant only when enable\_spot\_instances is true. | `number` | `0` | no |
 | spot\_max\_price | The maximum price per unit hour, in US$, that you're willing to pay for a Spot Instance. This option is relevant only when enable\_spot\_instances is true. Valid values are between 0.001 and 20.0 | `number` | `-1` | no |
@@ -148,9 +149,9 @@ The following resources will be created:
 |------|-------------|
 | eb\_all\_settings | n/a |
 | eb\_aws\_security\_group\_id | n/a |
+| eb\_environment\_cname | n/a |
 | eb\_environment\_id | n/a |
 | eb\_load\_balancers | n/a |
-| eb\_environment\_cname | CNAME of the environment for more complex DNS scenarios |
 | iam\_role\_eb\_arn | ARN for EB IAM role |
 | iam\_role\_eb\_name | Name of EB IAM role |
 | ssm\_association\_join\_domain\_automation | n/a |
