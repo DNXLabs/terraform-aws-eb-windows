@@ -75,7 +75,7 @@ The following resources will be created:
 | eb\_platform | Platform type, e.g. 'dotnet', 'dotnetcorelinux' | `string` | `"dotnet"` | no |
 | eb\_solution\_stack\_name | Stack name passed to ElasticBeanstalk | `any` | n/a | yes |
 | eb\_tier | Elastic Beanstalk Environment tier, 'WebServer' or 'Worker' | `string` | `"WebServer"` | no |
-| eb\_version\_label | Elastic Beanstalk Application version to deploy | `string` | `"default"` | no |
+| eb\_version\_label | Elastic Beanstalk Application version to deploy | `string` | `""` | no |
 | eb\_wait\_for\_ready\_timeout | The maximum duration to wait for the Elastic Beanstalk Environment to be in a ready state before timing out | `string` | `"20m"` | no |
 | egress\_rules | How long to wait for the security group to be created. | <pre>list(object({<br>    from_port       = string<br>    to_port         = string<br>    protocol        = string<br>    description     = string<br>    cidr_blocks     = list(string)<br>    security_groups = list(string)<br>    self            = string<br>  }))</pre> | `[]` | no |
 | elb\_scheme | Specify `internal` if you want to create an internal load balancer in your Amazon VPC so that your Elastic Beanstalk application cannot be accessed from outside your Amazon VPC | `string` | `"public"` | no |
@@ -149,9 +149,9 @@ The following resources will be created:
 |------|-------------|
 | eb\_all\_settings | n/a |
 | eb\_aws\_security\_group\_id | n/a |
+| eb\_environment\_cname | n/a |
 | eb\_environment\_id | n/a |
 | eb\_load\_balancers | n/a |
-| eb\_environment\_cname | CNAME of the environment for more complex DNS scenarios |
 | iam\_role\_eb\_arn | ARN for EB IAM role |
 | iam\_role\_eb\_name | Name of EB IAM role |
 | ssm\_association\_join\_domain\_automation | n/a |
