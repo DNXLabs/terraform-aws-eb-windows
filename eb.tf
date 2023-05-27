@@ -502,7 +502,7 @@ locals {
     {
       name      = "IdleTimeout"
       namespace = "aws:elbv2:loadbalancer"
-      value     = var.loadbalancer_idle_timeout)
+      value     = var.loadbalancer_idle_timeout
     }
   ]
 
