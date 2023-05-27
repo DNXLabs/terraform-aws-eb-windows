@@ -498,6 +498,11 @@ locals {
       name      = "SecurityGroups"
       namespace = "aws:elbv2:loadbalancer"
       value     = join(",", sort(var.loadbalancer_security_groups))
+    },
+    {
+      name      = "IdleTimeout"
+      namespace = "aws:elbv2:loadbalancer"
+      value     = var.loadbalancer_idle_timeout)
     }
   ]
 
