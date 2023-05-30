@@ -218,6 +218,12 @@ variable "loadbalancer_security_groups" {
   description = "Load balancer security groups"
 }
 
+variable "loadbalancer_idle_timeout" {
+  type        = number
+  default     = 60
+  description = "Load balancer connection idle timeout"
+}
+
 variable "loadbalancer_managed_security_group" {
   type        = string
   default     = ""
