@@ -709,11 +709,15 @@ resource "aws_elastic_beanstalk_environment" "env" {
       resource  = ""
     }
   }
+
+  lifecycle {
+    ignore_changes = [cname_prefix]
+  }
 }
 
 data "aws_elastic_beanstalk_solution_stack" "solution_stack" {
   count       = length(var.solutions_stack_name_regex) > 0 ? 1 : 0
   most_recent = true
 
-  name_regex  = var.solutions_stack_name_regex
+  name_regex = var.solutions_stack_name_regex
 }
