@@ -105,6 +105,7 @@ The following resources will be created:
 | key\_name | Defines a SSH keypair to access EB instances (leave empty to create one) | `string` | `""` | no |
 | loadbalancer\_access\_logs\_s3\_enabled | Enable or disable logs on load balancer | `bool` | `false` | no |
 | loadbalancer\_certificate\_arn | Load Balancer SSL certificate ARN. The certificate must be present in AWS Certificate Manager | `string` | `""` | no |
+| loadbalancer\_idle\_timeout | Load balancer connection idle timeout | `number` | `60` | no |
 | loadbalancer\_is\_shared | Flag to create a shared application loadbalancer. Only when loadbalancer\_type = "application" https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environments-cfg-alb-shared.html | `bool` | `false` | no |
 | loadbalancer\_managed\_security\_group | Load balancer managed security group | `string` | `""` | no |
 | loadbalancer\_security\_groups | Load balancer security groups | `list(string)` | `[]` | no |
