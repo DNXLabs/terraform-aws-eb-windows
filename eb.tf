@@ -711,7 +711,7 @@ resource "aws_elastic_beanstalk_environment" "env" {
   }
 
   lifecycle {
-    ignore_changes = [cname_prefix]
+    ignore_changes = [cname_prefix, version_label]
   }
 }
 
