@@ -409,6 +409,11 @@ locals {
 
   eb_launch_config = [
     {
+      name      = "ImageId"
+      namespace = "aws:autoscaling:launchconfiguration"
+      value     = var.ami_id
+    },
+    {
       name      = "InstanceType"
       namespace = "aws:autoscaling:launchconfiguration"
       value     = var.instance_type
