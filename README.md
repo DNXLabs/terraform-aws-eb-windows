@@ -52,6 +52,7 @@ The following resources will be created:
 | alarm\_alb\_latency\_anomaly\_threshold | ALB Latency anomaly detection width (use 0 to disable this alarm) | `number` | `4` | no |
 | alarm\_asg\_high\_cpu\_threshold | Max threshold average CPU percentage allowed in a 2 minutes interval (use 0 to disable this alarm) | `number` | `80` | no |
 | alarm\_sns\_topics | Alarm topics to create and alert on ECS service metrics. Leaving empty disables all alarms. | `list` | `[]` | no |
+| ami\_id | ElasticBeanstalk custom AMI ID | `string` | `""` | no |
 | application\_port | Port application is listening on | `number` | `80` | no |
 | application\_subnets | List of subnets to place EC2 instances | `list(string)` | n/a | yes |
 | asg\_max | Max number of instances for autoscaling group | `number` | `4` | no |
